@@ -9,6 +9,7 @@ public class Buyable : MonoBehaviour {
 
     public Text costUI;
     public Button buttonUI;
+    public Text ownedText;
 
     private double cost;
     private int owned = 0;
@@ -58,6 +59,7 @@ public class Buyable : MonoBehaviour {
     void UpdateUI() {
         uiButton.SetState(moneyManager.CanAffordPurchase(cost));
         costUI.text = moneyManager.GetFormattedMoney(cost, false);
+        ownedText.text = owned.ToString();
     }
 
     void OnMoneyChanged() {
