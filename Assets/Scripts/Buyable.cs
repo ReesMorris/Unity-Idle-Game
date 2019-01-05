@@ -10,6 +10,10 @@ public class Buyable : MonoBehaviour {
     public Text costUI;
     public Button buttonUI;
     public Text ownedText;
+    public Image ownershipMultiplierFill;
+    public Text incomeText;
+    public Image fillProgress;
+    public Text timeText;
 
     private double cost;
     private int owned = 0;
@@ -18,6 +22,8 @@ public class Buyable : MonoBehaviour {
     private UIButton uiButton;
     private float buyCooldown;
     private float nextBuyTime;
+    private float speed;
+    private double profit;
 
 	void Start () {
         moneyManager = MoneyManager.Instance;
@@ -25,6 +31,7 @@ public class Buyable : MonoBehaviour {
         uiButton = buttonUI.GetComponent<UIButton>();
         MoneyManager.onMoneyChanged += OnMoneyChanged;
 
+        speed = data.baseSpeed;
         cost = data.baseCost;
 
         UpdateUI();
@@ -53,13 +60,21 @@ public class Buyable : MonoBehaviour {
         moneyManager.ReduceMoney(cost);
         cost *= data.upgradeCostIncrement;
 
+        if (owned > 0 && owned % gameManager.ownershipMultiplier == 0)
+            speed /= 2;
+
+        profit = data.profit * owned * data.profitMultiplier;
+
         UpdateUI();
+        print(speed);
     }
 
     void UpdateUI() {
         uiButton.SetState(moneyManager.CanAffordPurchase(cost));
         costUI.text = moneyManager.GetFormattedMoney(cost, false);
         ownedText.text = owned.ToString();
+        incomeText.text = moneyManager.GetFormattedMoney(profit, false);
+        ownershipMultiplierFill.fillAmount = (owned % gameManager.ownershipMultiplier) / (float)gameManager.ownershipMultiplier;
     }
 
     void OnMoneyChanged() {
@@ -70,10 +85,15 @@ public class Buyable : MonoBehaviour {
         float i = 0.01f; // smaller number means smoother UI but more calculations
         float t = 0;
         while(true) {
+            if (speed > 0.25f)
+                fillProgress.fillAmount = (t / speed);
+            else
+                fillProgress.fillAmount = 1f;
+
             t += i;
-            if(t >= data.baseSpeed) {
+            if (t >= speed) {
                 t = 0;
-                moneyManager.AddMoney(data.profit * owned);
+                moneyManager.AddMoney(profit);
             }
             yield return new WaitForSeconds(i);
         }
