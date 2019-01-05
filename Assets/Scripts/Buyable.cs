@@ -1,101 +1,96 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Buyable : MonoBehaviour {
 
-    public BuyableData data;
+    // Delegates which can be used by custom scripts to shape the game into your own
+    public delegate void OnVariableChanged(Buyable buyable);
+    public static OnVariableChanged onVariableChanged;
+    public delegate void OnProcessBegin(Buyable buyable);
+    public static OnProcessBegin onProcessBegin;
+    public delegate void OnProcessUpdate(Buyable buyable, float progress);
+    public static OnProcessUpdate onProcessUpdate;
+    public delegate void OnProcessFinish(Buyable buyable);
+    public static OnProcessFinish onProcessFinish;
+    public delegate void OnManagerHired(Buyable buyable);
+    public static OnManagerHired onManagerHired;
 
-    public Text costUI;
-    public Button buttonUI;
-    public Text ownedText;
-    public Image ownershipMultiplierFill;
-    public Text incomeText;
-    public Image fillProgress;
-    public Text timeText;
-
-    private double cost;
-    private int owned = 0;
+    // Private & Protected Variables
+    public BuyableData Data { get; private set; }
     private MoneyManager moneyManager;
     private GameManager gameManager;
-    private UIButton uiButton;
-    private float buyCooldown;
-    private float nextBuyTime;
-    private float speed;
-    private double profit;
 
-	void Start () {
-        moneyManager = MoneyManager.Instance;
-        gameManager = GameManager.Instance;
-        uiButton = buttonUI.GetComponent<UIButton>();
-        MoneyManager.onMoneyChanged += OnMoneyChanged;
-
-        speed = data.baseSpeed;
-        cost = data.baseCost;
-
-        UpdateUI();
-
+    public void Init(BuyableData buyableData) {
+        Data = buyableData;
+        Data.Init();
     }
 
-    void Update() {
-        if(uiButton.Pressed) {
-            if(Time.time > nextBuyTime) {
-                buyCooldown -= 0.01f; // make it so that holding the button down increases buy speed over time (until released)
-                nextBuyTime = Time.time + buyCooldown;
-                if (moneyManager.CanAffordPurchase(cost))
-                    OnPurchase();
-            }
-        } else {
-            buyCooldown = gameManager.baseBuyCooldown;
+    private void Awake() {
+        gameManager = GameManager.Instance;
+        moneyManager = MoneyManager.Instance;
+    }
+
+    public void RunProcess() {
+        if(Data.Owned > 0 && Data.ProcessCompleteTime < gameManager.TimeNow()) {
+            Data.BeginProcess();
+            StartCoroutine(Process());
+
+            // Send an event out to say that we've updated some variable (so the UI can be updated)
+            if (onProcessBegin != null)
+                onProcessBegin(this);
         }
     }
 
-    void OnPurchase() {
-        owned++;
+    // Called by the script attached to this buyable when the upgrade button is pressed
+    public void UpgradeButtonPressed() {
+        if (moneyManager.CanAffordPurchase(Data.Cost)) {
+            moneyManager.ReduceMoney(Data.Cost);
+            Data.Upgrade();
 
-        if (owned == 1)
-            StartCoroutine(Run());
-
-        moneyManager.ReduceMoney(cost);
-        cost *= data.upgradeCostIncrement;
-
-        if (owned > 0 && owned % gameManager.ownershipMultiplier == 0)
-            speed /= 2;
-
-        profit = data.profit * owned * data.profitMultiplier;
-
-        UpdateUI();
-        print(speed);
+            // Send an event out to say that we've updated some variable (so the UI can be updated)
+            if (onVariableChanged != null)
+                onVariableChanged(this);
+        }
     }
 
-    void UpdateUI() {
-        uiButton.SetState(moneyManager.CanAffordPurchase(cost));
-        costUI.text = moneyManager.GetFormattedMoney(cost, false);
-        ownedText.text = owned.ToString();
-        incomeText.text = moneyManager.GetFormattedMoney(profit, false);
-        ownershipMultiplierFill.fillAmount = (owned % gameManager.ownershipMultiplier) / (float)gameManager.ownershipMultiplier;
+    // Called by the script attached to this when a manager button is pressed
+    public void BuyManagerButtonPressed() {
+        if (!Data.HasManager && Data.Owned > 0 && moneyManager.CanAffordPurchase(Data.managerCost)) {
+            Data.AddManager();
+            RestartProcess();
+            if (onManagerHired != null)
+                onManagerHired(this);
+        }
     }
 
-    void OnMoneyChanged() {
-        UpdateUI();
+    
+    // Handles the process UI
+    IEnumerator Process() {
+        // Run continuously whilst the process is not complete
+        while(gameManager.TimeNow() < Data.ProcessCompleteTime) {
+            float progress = Data.GetProcessCompletion();
+            if(onProcessUpdate != null)
+                onProcessUpdate(this, progress);
+
+            // Repeat every duration/120f seconds; if a process takes 1 hour there's no need to update UI every frame
+            yield return new WaitForSeconds(Data.ProcessTime / 120f);
+        }
+
+        // The process is complete
+        moneyManager.AddMoney(Data.GetRevenue());
+        if(onProcessFinish != null)
+            onProcessFinish(this);
+
+        // Restart (if we have a manager)
+        RestartProcess();
+
     }
 
-    IEnumerator Run() {
-        float i = 0.01f; // smaller number means smoother UI but more calculations
-        float t = 0;
-        while(true) {
-            if (speed > 0.25f)
-                fillProgress.fillAmount = (t / speed);
-            else
-                fillProgress.fillAmount = 1f;
-
-            t += i;
-            if (t >= speed) {
-                t = 0;
-                moneyManager.AddMoney(profit);
-            }
-            yield return new WaitForSeconds(i);
+    // Restart the coroutine above if we have a manager
+    void RestartProcess() {
+        if(Data.HasManager) {
+            RunProcess();
         }
     }
 }

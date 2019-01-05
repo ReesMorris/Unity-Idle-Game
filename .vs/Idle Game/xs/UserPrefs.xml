@@ -2,11 +2,12 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UIButton.cs">
     <Files>
-      <File FileName="Assets/Resources/MoneyNames.txt" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Buyable.cs" Line="77" Column="1" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="11" Column="100" />
-      <File FileName="Assets/Scripts/BuyableData.cs" Line="17" Column="35" />
-      <File FileName="Assets/Scripts/UIButton.cs" Line="28" Column="1" />
+      <File FileName="Assets/Scripts/Buyable.cs" Line="59" Column="63" />
+      <File FileName="Assets/Idle1.cs" Line="1" Column="22" />
+      <File FileName="Assets/Scripts/BuyableData.cs" Line="114" Column="2" />
+      <File FileName="Assets/Scripts/UIButton.cs" Line="22" Column="35" />
+      <File FileName="Assets/Scripts/MoneyManager.cs" Line="65" Column="48" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="32" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

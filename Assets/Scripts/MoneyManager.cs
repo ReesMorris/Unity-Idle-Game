@@ -6,7 +6,7 @@ using System.IO;
 
 public class MoneyManager : MonoBehaviour {
 
-    public delegate void OnMoneyChanged();
+    public delegate void OnMoneyChanged(double newAmount);
     public static OnMoneyChanged onMoneyChanged;
 
     // Define the instance so we can use it easily from other scripts
@@ -48,7 +48,7 @@ public class MoneyManager : MonoBehaviour {
         money += amount;
 
         // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged();
+        onMoneyChanged(money);
     }
 
     public void ReduceMoney(double amount) {
@@ -59,14 +59,14 @@ public class MoneyManager : MonoBehaviour {
                 money = 0;
 
         // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged();
+        onMoneyChanged(money);
     }
 
     public bool CanAffordPurchase(double cost) {
         return money > cost;
     }
 
-    void OnBalanceChanged() {
+    void OnBalanceChanged(double money) {
         moneyText.text = GetFormattedMoney(money, true);
     }
 
