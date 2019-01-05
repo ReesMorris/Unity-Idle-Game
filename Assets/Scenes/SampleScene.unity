@@ -741,7 +741,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 29.899 Trillion
+  m_Text: '9 '
 --- !u!222 &648219714
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -758,6 +758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 780995085}
   - component: {fileID: 780995084}
+  - component: {fileID: 780995086}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -776,7 +777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce74da290223d41ba26935ed8c9d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyText: {fileID: 648219713}
 --- !u!4 &780995085
 Transform:
   m_ObjectHideFlags: 0
@@ -790,6 +790,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &780995086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 780995083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfaabc7908059f0499813ec2e1727432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyText: {fileID: 648219713}
+  currencyIcon: 
+  firstNameLength: 3
+  decimalPlaces: 3
+  allowNegativeBalance: 0
+  enableDebugging: 0
+  test: 
 --- !u!1 &850770444
 GameObject:
   m_ObjectHideFlags: 0
