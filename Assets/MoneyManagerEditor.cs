@@ -7,8 +7,8 @@ using UnityEditor;
 public class MoneyManagerEditor : Editor {
 
     bool debugging;
-    long giveMoney;
-    long reduceMoney;
+    double giveMoney;
+    double reduceMoney;
 
     override public void OnInspectorGUI() {
         DrawDefaultInspector();
@@ -23,7 +23,7 @@ public class MoneyManagerEditor : Editor {
 
             // Give money layout
             GUILayout.BeginHorizontal();
-            giveMoney = EditorGUILayout.LongField("Give Money", giveMoney);
+            giveMoney = EditorGUILayout.DoubleField("Give Money", giveMoney);
             if (GUILayout.Button("Go")) {
                 myScript.AddMoney(giveMoney);
             }
@@ -31,7 +31,7 @@ public class MoneyManagerEditor : Editor {
 
             // Reduce money layout
             GUILayout.BeginHorizontal();
-            reduceMoney = EditorGUILayout.LongField("Take Money", reduceMoney);
+            reduceMoney = EditorGUILayout.DoubleField("Take Money", reduceMoney);
             if (GUILayout.Button("Go")) {
                 myScript.ReduceMoney(reduceMoney);
             }

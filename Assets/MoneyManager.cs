@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class MoneyManager : MonoBehaviour {
+
+    public delegate void OnMoneyChanged();
+    public static OnMoneyChanged onMoneyChanged;
 
     // Define the instance so we can use it easily from other scripts
     public static MoneyManager Instance;
@@ -11,6 +15,7 @@ public class MoneyManager : MonoBehaviour {
     // Public Variables
     [Header("UI Elements")]
     [Tooltip("The UI element of the text which displays our money")] public Text moneyText;
+    [Tooltip("The filename of the text file containing names of money. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
 
     [Header("Config")]
     [Tooltip("The amount of money the player starts the game with")] public float startingMoney;
@@ -18,118 +23,132 @@ public class MoneyManager : MonoBehaviour {
     [Tooltip("The minimum length of a number's digits before the first name (ie. Thousands) is displayed. Must be divisible by 3")] public int firstNameLength = 3;
     [Tooltip("The number of decimal places to display")] public int decimalPlaces = 3;
     [Tooltip("If enabled, the user's balance will never drop below zero")] public bool allowNegativeBalance;
+    [Tooltip("After the length of MoneyNames.txt is exceeded, generate values from aa, ab, ac, ...?")] public bool autoNameBigMoney = true;
+    [Tooltip("If not automatically naming big money, the string to appear once MoneyNames.txt is exceeded")] public string bigMoneyString = "a lot";
 
     // Private Variables
-    float money;
+    double money;
+    List<string> moneyNames; // ie. Trillion
+    List<string> moneyQuickhand; // ie. T
 
     // Called when the game begins
     void Start() {
-        // Set this to be an instance of itself, so we can call this script from others
         Instance = this;
 
-        // Add the starting funds
+        // Set up the lists to contain all money names used in the game
+        SetupMoneyNames();
+
+        // Add a listener for when the balance is changed
+        onMoneyChanged += OnBalanceChanged;
+       
         AddMoney(startingMoney);
     }
 
-
-
-    // Can be called by other scripts to add money to the user's balance
-    public void AddMoney(float amount) {
-
-        // Increase the amount of money we have
+    public void AddMoney(double amount) {
         money += amount;
 
-        // Call a function to say that our balance has changed
-        OnBalanceChanged();
+        // Call the delegate for when our balance is changed (so other scripts can use it too)
+        onMoneyChanged();
     }
 
-
-
-    // Reduce the amount of money the player has. This function will not check to see if the user has enough money
-    public void ReduceMoney(float amount) {
-
-        // Reduce the amount of money we have
+    public void ReduceMoney(double amount) {
         money -= amount;
 
-        // If we cannot go into negative, let's just make sure we haven't
-        if (!allowNegativeBalance) {
+        if (!allowNegativeBalance)
+            if (money < 0)
+                money = 0;
 
-            // Set the player's money to be the higher of two values: 0 or the money itself. We can never be negative in this way.
-            money = Mathf.Max(0, money);
-        }
-
-        // Call a function to say that our balance has changed
-        OnBalanceChanged();
+        // Call the delegate for when our balance is changed (so other scripts can use it too)
+        onMoneyChanged();
     }
 
-
-
-    // Returns true or false depending on whether or not the player has enough money
-    public bool CanAffordPurchase(float cost) {
-
-        // Returns whether the player's balance is higher than the cost
+    public bool CanAffordPurchase(double cost) {
         return money > cost;
     }
 
-
-
-    // Called when the balance of the user has been changed
     void OnBalanceChanged() {
-
-        moneyText.text = GetStringMoney(money);
+        moneyText.text = GetFormattedMoney(money, true);
     }
 
-
-
-    // Returns the balance as a string
-    public string GetStringMoney(float money) {
-
-        // Convert the money value to a string with zero decimal places
-        return money.ToString("F0");
+    public string GetStringMoney(double money) {
+        if (money.ToString("F0").Length > firstNameLength)
+            return money.ToString("F0");
+        return money.ToString("F" + decimalPlaces);
     }
 
+    public int GetMoneyLength(double money) {
+        string moneyString = GetStringMoney(money);
+        if (moneyString.IndexOf('.') != -1)
+            moneyString = moneyString.Split('.')[0];
+        return moneyString.Length;
+    }
 
-
-    // Returns the money value formatted with the currency character, decimal place, amount, and the name of the number (if applicable)
-    public string GetFormattedMoney(float money) {
-
-        // Convert the money to a string
+    public string GetFormattedMoney(double money, bool showFullName) {
         string stringMoney = GetStringMoney(money);
+        string displayMoney = stringMoney;
+        int moneyLength = GetMoneyLength(money);
 
-        /*
-        // Calculate how many digits come before the decmial place, which will be at most 3 digits
-        int digitsBeforeDecimal = stringMoney.Length % 3;
-        if (digitsBeforeDecimal == 0) digitsBeforeDecimal = 3;
-        */
+        // Add a decimal if there isn't one (and trim the fat)
+        if (displayMoney.IndexOf('.') == -1) {
 
-        /*
-        // Do we want to display decimal places?
-        if (decimalPlaces > 0) {
+            // Add the decimal
+            int decimalPos = moneyLength % 3;
+            if (decimalPos == 0) decimalPos = 3;
+            displayMoney = displayMoney.Insert(decimalPos, ".");
 
-            // Only show a decimal place if there is a word for the number amount; otherwise it looks weird
-            if (stringMoney.Length > firstNameLength) {
+            // Trim the fat
+            displayMoney = displayMoney.Substring(0, decimalPos + (1 + decimalPlaces));
+        }
 
-                // Insert a decimal place into the string based on the amount of digits before the decimal, calculated above
-                stringMoney = stringMoney.Insert(digitsBeforeDecimal, ".");
+        // Calculate what name to show
+        displayMoney += " ";
+        if (moneyLength > firstNameLength) {
+            int index = Mathf.FloorToInt((float)(moneyLength-1) / 3f) - (firstNameLength / 3);
+            if(index >= moneyQuickhand.Count) {
+                displayMoney += bigMoneyString;
+            } else {
+                if (showFullName)
+                    displayMoney += moneyNames[index];
+                else
+                    displayMoney += moneyQuickhand[index];
             }
 
-            // Check to see if there are enough digits in the number to actually display a decimal place
-            if (stringMoney.Length - digitsBeforeDecimal > decimalPlaces) {
+        }
 
-                // Reduce the string to be a length equal to the number of places it has before the decimal, as well as the decimal places (plus the decimal itself)
-                stringMoney = stringMoney.Substring(0, digitsBeforeDecimal + decimalPlaces + 1);
+        // Add the currency character
+        displayMoney = displayMoney.Insert(0, currencyIcon);
+
+        return displayMoney;
+    }
+
+    void SetupMoneyNames() {
+        moneyNames = new List<string>();
+        moneyQuickhand = new List<string>();
+
+        StreamReader reader = new StreamReader(Application.dataPath + "/" + moneyNamesFile);
+        string fileContents = reader.ReadToEnd();
+        reader.Close();
+
+        string[] lines = fileContents.Split("\n"[0]);
+        foreach(string line in lines) {
+            string[] split = line.Split('|');
+            moneyNames.Add(split[0]);
+            moneyQuickhand.Add(split[1]);
+        }
+
+        if(autoNameBigMoney) {
+            int index = 0;
+            int pos = 0;
+            char[] letters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+            for (int i = 0; i < (Mathf.Pow(letters.Length, 2)-1); i++) {
+                pos++;
+                if (pos >= letters.Length) {
+                    index++;
+                    pos = 0;
+                }
+                moneyNames.Add(letters[index] + letters[pos].ToString());
+                moneyQuickhand.Add(letters[index] + letters[pos].ToString());
             }
         }
-        */
-
-        /*
-        // Add the currency icon
-        stringMoney.Insert(0, currencyIcon);
-        */
-
-        // Add the number name
-            //stringMoney += " " + GetNumberName(stringMoney.Length);
-
-        return stringMoney;
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -777,6 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce74da290223d41ba26935ed8c9d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseBuyCooldown: 0.2
 --- !u!4 &780995085
 Transform:
   m_ObjectHideFlags: 0
@@ -802,11 +803,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyText: {fileID: 648219713}
-  startingMoney: 9999999
-  currencyIcon: 
+  moneyNamesFile: Resources/MoneyNames.txt
+  startingMoney: 500
+  currencyIcon: $
   firstNameLength: 3
-  decimalPlaces: 3
+  decimalPlaces: 2
   allowNegativeBalance: 0
+  autoNameBigMoney: 1
+  bigMoneyString: a lot
 --- !u!1 &850770444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,11 +1056,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992a32642984eed439db1c315b9c0590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: fish
-  buttonUI: {fileID: 1505769930}
+  data:
+    name: Fish
+    baseCost: 3.74
+    upgradeCostIncrement: 1.07
+    baseSpeed: 0.5
+    upgradeSpeedIncrement: 0
+    profit: 1
+    profitMultiplier: 0
   costUI: {fileID: 1237648170}
-  cost: 30
-  upgradeCostIncrement: 300
+  buttonUI: {fileID: 1505769930}
 --- !u!1 &956153236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,6 +1908,8 @@ GameObject:
   - component: {fileID: 1505769931}
   - component: {fileID: 1505769930}
   - component: {fileID: 1505769929}
+  - component: {fileID: 1505769933}
+  - component: {fileID: 1505769934}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -2019,6 +2030,77 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1505769927}
   m_CullTransparentMesh: 0
+--- !u!114 &1505769933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1505769927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0588077b5af7e41ea9fd4b1aa7f74737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colour: {r: 0.29803923, g: 0.15294118, b: 0.9607843, a: 1}
+  disabledColour: {r: 0.57254905, g: 0.57254905, b: 0.57254905, a: 1}
+--- !u!114 &1505769934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1505769927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1505769933}
+          m_MethodName: OnClickHeld
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 901233790}
+          m_MethodName: OnButtonClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1505769933}
+          m_MethodName: OnClickReleased
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1607758233
 GameObject:
   m_ObjectHideFlags: 0

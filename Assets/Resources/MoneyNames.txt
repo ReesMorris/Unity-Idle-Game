@@ -1,0 +1,3 @@
+﻿Thousand|T
+Million|M
+Billion|B

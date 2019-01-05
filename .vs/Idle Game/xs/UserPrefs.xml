@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{E80E9977-2DDF-774F-38D9-C54F28D0CC0B}|">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameManager.cs">
+    <Files>
+      <File FileName="Assets/Buyable.cs" Line="38" Column="32" />
+      <File FileName="Assets/BuyableData.cs" Line="17" Column="35" />
+      <File FileName="Assets/MoneyManager.cs" Line="61" Column="95" />
+      <File FileName="Assets/MoneyManagerEditor.cs" Line="34" Column="54" />
+      <File FileName="Assets/Resources/MoneyNames.txt" Line="1" Column="1" />
+      <File FileName="Assets/UIButton.cs" Line="43" Column="10" />
+      <File FileName="Assets/GameManager.cs" Line="8" Column="12" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
