@@ -20,7 +20,6 @@ public class MoneyManagerEditor : Editor {
         debugging = EditorGUILayout.Toggle("Show Debug Menu", debugging);
 
         if (debugging) {
-
             // Give money layout
             GUILayout.BeginHorizontal();
             giveMoney = EditorGUILayout.DoubleField("Give Money", giveMoney);

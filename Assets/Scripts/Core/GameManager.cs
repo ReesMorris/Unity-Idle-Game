@@ -38,10 +38,9 @@ public class GameManager : MonoBehaviour {
         return TimeNow() + secondsAhead;
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            if(resetAllData != null)
-                resetAllData();
-        }
+    // Call this function to reset all of a player's progress
+    public void Reset() {
+        if (resetAllData != null)
+            resetAllData();
     }
 }

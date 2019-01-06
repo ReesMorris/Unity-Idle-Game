@@ -847,10 +847,10 @@ MonoBehaviour:
     baseTime: 0.6
     baseProfit: 1
     managerCost: 1000
+    maxAmount: 400
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
     actionToTakeOnUpgrade: 0
-    displayPrice: 0
   - name: Newspaper Delivery
     identifier: newspaperDelivery
     baseCost: 60
@@ -858,10 +858,10 @@ MonoBehaviour:
     baseTime: 3
     baseProfit: 6
     managerCost: 15000
+    maxAmount: 400
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
     actionToTakeOnUpgrade: 0
-    displayPrice: 0
   - name: Car Wash
     identifier: carWash
     baseCost: 720
@@ -869,10 +869,10 @@ MonoBehaviour:
     baseTime: 6
     baseProfit: 540
     managerCost: 100000
+    maxAmount: 400
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
     actionToTakeOnUpgrade: 0
-    displayPrice: 0
   - name: Pizza Delivery
     identifier: pizzaDelivery
     baseCost: 8640
@@ -880,10 +880,10 @@ MonoBehaviour:
     baseTime: 12
     baseProfit: 4320
     managerCost: 500000
+    maxAmount: 0
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
     actionToTakeOnUpgrade: 0
-    displayPrice: 0
 --- !u!114 &780995088
 MonoBehaviour:
   m_ObjectHideFlags: 0

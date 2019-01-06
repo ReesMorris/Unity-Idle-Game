@@ -48,16 +48,18 @@ public class Buyable : MonoBehaviour {
     // Called by the script attached to this buyable when the upgrade button is pressed
     public void UpgradeButtonPressed() {
         if (moneyManager.CanAffordPurchase(Data.Cost)) {
-            moneyManager.ReduceMoney(Data.Cost);
-            Data.Upgrade();
+            if(Data.Owned + 1 <= Data.maxAmount) {
+                moneyManager.ReduceMoney(Data.Cost);
+                Data.Upgrade();
 
-            // Send an event out to say that we've updated some variable (so the UI can be updated)
-            if (onVariableChanged != null)
-                onVariableChanged(this);
+                // Send an event out to say that we've updated some variable (so the UI can be updated)
+                if (onVariableChanged != null)
+                    onVariableChanged(this);
 
-            // If this is the first upgrade (a purchase), send out an additional delegate
-            if (onBuyablePurchase != null)
-                onBuyablePurchase(this);
+                // If this is the first upgrade (a purchase), send out an additional delegate
+                if (onBuyablePurchase != null)
+                    onBuyablePurchase(this);
+            }
         }
     }
 

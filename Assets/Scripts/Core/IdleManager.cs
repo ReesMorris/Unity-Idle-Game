@@ -59,7 +59,9 @@ public class IdleManager : MonoBehaviour {
 
             // Todo: move this 
             print("Welcome back! You were gone for " + utilities.SecondsToHHMMSS(secondsGone, false));
-            print("You earned " + moneyManager.GetFormattedMoney(idleEarnings, false) + " whilst you were away");
+            if(idleEarnings > 0) {
+                print("You earned " + moneyManager.GetFormattedMoney(idleEarnings, false) + " whilst you were away");
+            }
         }
     }
 

@@ -20,6 +20,7 @@ public class BuyableData {
     [Tooltip("The time (in seconds) the first idle will take to be completed")] public float baseTime;
     [Tooltip("The amount received from every production on level 1")] public float baseProfit;
     [Tooltip("The cost to purchase a manager. Managers will automatically click for you once a process ends (and earn offline revenue!)")] public double managerCost;
+    [Tooltip("The maximum amount that can be purchased. As money is stored as a double, ensure that the best possible production for this would still be less than 10^308")] public int maxAmount = 400;
     [Tooltip("The milestones used by the UpgradeActions function for either standard or custom actions")] public int[] upgradeMilestones = { 25, 50, 100, 200, 300, 400 };
 
     [Header("Calculations")]
@@ -114,13 +115,15 @@ public class BuyableData {
 
     }
 
-    // Called by other functions to upgrade this; does not check the price
+    // Called by other functions to upgrade this; does not check the price but will prevent an upgrade exceeding maxAmount
     public void Upgrade() {
-        Owned++;
-        UpgradeActions();
-        SetUpgradeCost();
-        SetMinutelyProfit();
-        SaveData();
+        if(Owned + 1 <= maxAmount) {
+            Owned++;
+            UpgradeActions();
+            SetUpgradeCost();
+            SetMinutelyProfit();
+            SaveData();
+        }
     }
 
     // Returns true if a process is currently in progress
