@@ -61,7 +61,6 @@ public class Idle1 : MonoBehaviour {
 
     IEnumerator UpdateTimer() {
         while(true) {
-            print(buyable.Data.MinutelyProfit);
             if(buyable.Data.ProcessInProgress()) {
                 timerText.text = utilities.SecondsToHHMMSS(buyable.Data.SecondsToProcessCompletion());
             } else {

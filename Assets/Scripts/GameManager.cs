@@ -6,12 +6,14 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
-    [Header("Time")]
-    [Header("If true, the time will be pulled from the URL resource defined below. The resource must be a blank page with just a timestamp. This is recommended to prevent the user from modifying their system time\n\nIf disabled, the timestamp will be based on the system time of the device")]
-    public bool pullTimeFromUrl;
-    [Header("The URL to the resource which will provide the current timestamp (timezone does not matter)")] public string timeUrl;
+    [Header("Idle Settings")]
+    [Tooltip("The percentage of the total earnings that will be earned when re-opening the game")] public float idleEarnings = 80f;
 
-    private float timestamp;
+    [Header("Time")]
+    [Tooltip("If true, the time will be pulled from the URL resource defined below. The resource must be a blank page with just a timestamp. This is recommended to prevent the user from modifying their system time\n\nIf disabled, the timestamp will be based on the system time of the device")] public bool pullTimeFromUrl;
+    [Tooltip("The URL to the resource which will provide the current timestamp (timezone does not matter)")] public string timeUrl;
+
+    private int timestamp;
 
     void Awake() {
         Instance = this;
@@ -20,7 +22,12 @@ public class GameManager : MonoBehaviour {
     void Start() {
         if(!pullTimeFromUrl) {
             DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            int currentEpochTime = (int)(DateTime.UtcNow - epochStart).TotalSeconds;
+            timestamp = (int)(DateTime.UtcNow - epochStart).TotalSeconds;
+
+            // Allows us to store the Timestamp in an integer; kind of messy but will do for years
+            if(timestamp.ToString().Length > 5)
+            timestamp /= 100000;
+            print(timestamp);
         }
     }
 

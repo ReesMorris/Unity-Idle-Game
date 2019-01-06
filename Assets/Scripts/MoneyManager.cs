@@ -16,6 +16,7 @@ public class MoneyManager : MonoBehaviour {
     [Header("UI Elements")]
     [Tooltip("The UI element of the text which displays our money")] public Text moneyText;
     [Tooltip("The filename of the text file containing names of money. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
+    [Tooltip("The text showing the income per minute")] public Text incomePerMinute;
 
     [Header("Config")]
     [Tooltip("The amount of money the player starts the game with")] public float startingMoney;
@@ -30,18 +31,26 @@ public class MoneyManager : MonoBehaviour {
     double money;
     List<string> moneyNames; // ie. Trillion
     List<string> moneyQuickhand; // ie. T
+    GameManager gameManager;
+
+    void Awake() {
+        Instance = this;
+    }
 
     // Called when the game begins
     void Start() {
-        Instance = this;
+        gameManager = GameManager.Instance;
 
         // Set up the lists to contain all money names used in the game
         SetupMoneyNames();
 
-        // Add a listener for when the balance is changed
+        // Add listeners
         onMoneyChanged += OnBalanceChanged;
-       
+        Buyable.onVariableChanged += OnBuyableChange;
+        Buyable.onManagerHired += OnBuyableChange;
+
         AddMoney(startingMoney);
+        UpdateIncomePerMinute();
     }
 
     public void AddMoney(double amount) {
@@ -150,5 +159,27 @@ public class MoneyManager : MonoBehaviour {
                 moneyQuickhand.Add(letters[index] + letters[pos].ToString());
             }
         }
+    }
+
+    // Called by a delegate when a buyable value is changed
+    void OnBuyableChange(Buyable b) {
+        UpdateIncomePerMinute();
+    }
+
+    // Update the UI to show the income per minute
+    void UpdateIncomePerMinute() {
+        if(incomePerMinute != null) {
+            incomePerMinute.text = GetFormattedMoney(CalculateMinutelyProfit(), false) + "/min";
+        }
+    }
+
+    // Calculates total profits per minute
+    double CalculateMinutelyProfit() {
+        double total = 0;
+        foreach(BuyableData data in Idles.Instance.idles) {
+            total += data.MinutelyProfit;
+        }
+
+        return total * (gameManager.idleEarnings / 100f);
     }
 }

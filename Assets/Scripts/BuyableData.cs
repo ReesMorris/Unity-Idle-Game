@@ -53,7 +53,7 @@ public class BuyableData {
     }
 
     // Set the minutely profit based on current upgrades
-    void SetMinutelyProfit() {
+    public void SetMinutelyProfit() {
         if (!HasManager)
             MinutelyProfit = 0f;
         else

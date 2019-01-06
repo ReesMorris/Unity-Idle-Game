@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Idles : MonoBehaviour {
 
+    public static Idles Instance;
+
     // Public Variables
     [Tooltip("The prefab that will be created for each buyable")] public Buyable idlePrefab;
     [Tooltip("The container that the idle prefabs will be put in")]public Transform prefabContainer;
@@ -17,6 +19,7 @@ public class Idles : MonoBehaviour {
     private int displayIndex;
 
 	void Awake () {
+        Instance = this;
 	}
 
     void Start () {
