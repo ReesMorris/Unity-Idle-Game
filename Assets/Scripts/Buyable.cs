@@ -26,9 +26,10 @@ public class Buyable : MonoBehaviour {
         Data.Init();
     }
 
-    private void Awake() {
+    void Awake() {
         gameManager = GameManager.Instance;
         moneyManager = MoneyManager.Instance;
+        BuyableData.onDataLoaded += OnBuyableDataLoaded;
     }
 
     public void RunProcess() {
@@ -85,6 +86,13 @@ public class Buyable : MonoBehaviour {
         // Restart (if we have a manager)
         RestartProcess();
 
+    }
+
+    // Called when a Buyable's Data is loaded
+    void OnBuyableDataLoaded(BuyableData data) {
+        if(data == Data) {
+            RestartProcess();
+        }
     }
 
     // Restart the coroutine above if we have a manager

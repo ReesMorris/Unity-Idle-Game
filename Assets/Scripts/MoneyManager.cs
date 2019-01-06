@@ -28,18 +28,18 @@ public class MoneyManager : MonoBehaviour {
     [Tooltip("If not automatically naming big money, the string to appear once MoneyNames.txt is exceeded")] public string bigMoneyString = "a lot";
 
     // Private Variables
-    double money;
+    public double Money { get; protected set; }
     List<string> moneyNames; // ie. Trillion
     List<string> moneyQuickhand; // ie. T
     GameManager gameManager;
 
     void Awake() {
         Instance = this;
+        gameManager = GameManager.Instance;
     }
 
     // Called when the game begins
     void Start() {
-        gameManager = GameManager.Instance;
 
         // Set up the lists to contain all money names used in the game
         SetupMoneyNames();
@@ -48,31 +48,41 @@ public class MoneyManager : MonoBehaviour {
         onMoneyChanged += OnBalanceChanged;
         Buyable.onVariableChanged += OnBuyableChange;
         Buyable.onManagerHired += OnBuyableChange;
+        IdleManager.onLoaded += UpdateIncomePerMinute;
 
-        AddMoney(startingMoney);
+        if (PlayerPrefs.GetString("Money") == "")
+            SetMoney(startingMoney);
+        else
+            SetMoney(double.Parse(PlayerPrefs.GetString("Money")));
         UpdateIncomePerMinute();
+    }
+    
+    // Set our balance to a specific amount
+    public void SetMoney(double amount) {
+        Money = amount;
+        onMoneyChanged(Money);
     }
 
     public void AddMoney(double amount) {
-        money += amount;
+        Money += amount;
 
         // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged(money);
+        onMoneyChanged(Money);
     }
 
     public void ReduceMoney(double amount) {
-        money -= amount;
+        Money -= amount;
 
         if (!allowNegativeBalance)
-            if (money < 0)
-                money = 0;
+            if (Money < 0)
+                Money = 0;
 
         // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged(money);
+        onMoneyChanged(Money);
     }
 
     public bool CanAffordPurchase(double cost) {
-        return money > cost;
+        return Money > cost;
     }
 
     void OnBalanceChanged(double money) {
@@ -167,19 +177,30 @@ public class MoneyManager : MonoBehaviour {
     }
 
     // Update the UI to show the income per minute
-    void UpdateIncomePerMinute() {
+    public void UpdateIncomePerMinute() {
         if(incomePerMinute != null) {
             incomePerMinute.text = GetFormattedMoney(CalculateMinutelyProfit(), false) + "/min";
         }
     }
 
     // Calculates total profits per minute
-    double CalculateMinutelyProfit() {
+    public double CalculateMinutelyProfit() {
         double total = 0;
         foreach(BuyableData data in Idles.Instance.idles) {
             total += data.MinutelyProfit;
         }
-
         return total * (gameManager.idleEarnings / 100f);
+    }
+
+    // Save money data when the player quits
+    void OnApplicationQuit() {
+        PlayerPrefs.SetString("Money", Money.ToString());
+    }
+
+    // Reset all data
+    public void ResetData() {
+        PlayerPrefs.SetString("Money", "");
+        SetMoney(startingMoney);
+        incomePerMinute.text = GetFormattedMoney(0, false) + "/min";
     }
 }

@@ -14,25 +14,30 @@ public class UIButton : MonoBehaviour {
     private Button button;
     private Image image;
     public bool Pressed { get; protected set; }
+    private MoneyManager moneyManager;
 	
 	void Awake () {
         button = GetComponent<Button>();
         image = GetComponent<Image>();
+        moneyManager = MoneyManager.Instance;
         MoneyManager.onMoneyChanged += OnMoneyChanged;
+    }
+
+    void Start() {
+        SetUI();
     }
 
     // Called when the money value is changed
     void OnMoneyChanged(double money) {
+        SetUI();
+    }
 
-        // A button related to the game?
+    void SetUI() {
         if(buyable != null) {
-
-            // We don't care about WHAT we're buying here; just how much it costs
             double cost = buyable.Data.Cost;
-            if(buttonType == ButtonTypes.ManagerBuy)
+            if (buttonType == ButtonTypes.ManagerBuy)
                 cost = buyable.Data.managerCost;
-
-            if (money > cost)
+            if (moneyManager.Money > cost)
                 Enable();
             else
                 Disable();

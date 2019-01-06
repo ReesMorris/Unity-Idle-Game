@@ -14,6 +14,7 @@ public class Idle1 : MonoBehaviour {
     public Button upgradeButton;
     public Button manualTapButton;
     public Button managerButton;
+    public Text upgradeTitleText;
     public Text upgradeCostText;
     public Text profitText;
     public Text managerCostText;
@@ -43,6 +44,7 @@ public class Idle1 : MonoBehaviour {
         Buyable.onProcessUpdate += OnProcessUpdate;
         Buyable.onProcessFinish += OnProcessFinish;
         Buyable.onManagerHired += OnManagerHired;
+        BuyableData.onDataLoaded += OnBuyableDataLoaded;
     }
 
     void Start() {
@@ -52,19 +54,22 @@ public class Idle1 : MonoBehaviour {
 
     // Update the UI display with content from the Buyable Data
     void UpdateUI() {
+        upgradeTitleText.text = "UPGRADE";
         upgradeCostText.text = moneyManager.GetFormattedMoney(buyable.Data.Cost, false);
         profitText.text = moneyManager.GetFormattedMoney(buyable.Data.GetRevenue(), false);
         amountOwnedText.text = buyable.Data.Owned.ToString();
         ownedFill.fillAmount = buyable.Data.NextMilestonePercentage();
         managerCostText.text = moneyManager.GetFormattedMoney(buyable.Data.managerCost, false);
+        if(buyable.Data.HasManager)
+            managerButton.gameObject.SetActive(false);
     }
 
     IEnumerator UpdateTimer() {
         while(true) {
             if(buyable.Data.ProcessInProgress()) {
-                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.SecondsToProcessCompletion());
+                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.SecondsToProcessCompletion(), true);
             } else {
-                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.ProcessTime);
+                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.ProcessTime, true);
             }
             yield return new WaitForSeconds(0.1f);
         }
@@ -106,7 +111,14 @@ public class Idle1 : MonoBehaviour {
     // Called after a manager is hired
     void OnManagerHired(Buyable b) {
         if (b == buyable) {
-            managerButton.gameObject.SetActive(false);
+            UpdateUI();
+        }
+    }
+
+    // Called when a buyable's data is loaded after the game begins
+    void OnBuyableDataLoaded(BuyableData b) {
+        if(b == buyable.Data) {
+            UpdateUI();
         }
     }
 }

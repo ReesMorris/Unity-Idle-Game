@@ -10,11 +10,14 @@ public class Utilities : MonoBehaviour {
         Instance = this;
     }
 
-    public string SecondsToHHMMSS(float totalSeconds) {
-        float hours = totalSeconds / 3600;
-        float minutes = (totalSeconds % 3600) / 60;
-        float seconds = totalSeconds % 60;
+    public string SecondsToHHMMSS(double totalSeconds, bool alwaysShowHours) {
+        double hours = totalSeconds / 3600;
+        double minutes = (totalSeconds % 3600) / 60;
+        double seconds = totalSeconds % 60;
 
-        return string.Format("{0}:{1}:{2}", hours.ToString("00"), minutes.ToString("00"), seconds.ToString("00"));
+        if(hours > 0 || alwaysShowHours)
+            return string.Format("{0}:{1}:{2}", hours.ToString("00"), minutes.ToString("00"), seconds.ToString("00"));
+        else
+            return string.Format("{0}:{1}", minutes.ToString("00"), seconds.ToString("00"));
     }
 }

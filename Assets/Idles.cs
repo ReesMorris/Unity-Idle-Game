@@ -17,10 +17,15 @@ public class Idles : MonoBehaviour {
     // Private Variables
     private bool initiated;
     private int displayIndex;
+    private MoneyManager moneyManager;
+    private List<Buyable> prefabs;
 
-	void Awake () {
+    void Awake () {
         Instance = this;
-	}
+        prefabs = new List<Buyable>();
+        GameManager.resetAllData += ResetData;
+        moneyManager = MoneyManager.Instance;
+    }
 
     void Start () {
         DisplayBuyables();
@@ -46,6 +51,19 @@ public class Idles : MonoBehaviour {
 
     void DisplayBuyable(BuyableData buyableData) {
         Buyable prefab = Instantiate(idlePrefab, prefabContainer);
+        prefabs.Add(prefab);
         prefab.Init(buyableData);
+    }
+
+    // Reset all data
+    void ResetData() {
+        while (prefabs.Count > 0) {
+            prefabs[0].Data.ResetData();
+            Destroy(prefabs[0].gameObject);
+            prefabs.RemoveAt(0);
+        }
+        moneyManager.ResetData();
+        initiated = false;
+        DisplayBuyables();
     }
 }
