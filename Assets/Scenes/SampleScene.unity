@@ -838,7 +838,7 @@ MonoBehaviour:
   idlePrefab: {fileID: 114206298640480936, guid: 010acc7cea3214ce9b6f4252c533bc9c,
     type: 2}
   prefabContainer: {fileID: 970001893}
-  displayMode: 1
+  displayMode: 0
   idles:
   - name: Lemonade Stand
     identifier: lemonadeStand
@@ -849,7 +849,7 @@ MonoBehaviour:
     managerCost: 1000
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
-    actionToTakeOnUpgrade: 1
+    actionToTakeOnUpgrade: 0
     displayPrice: 0
   - name: Newspaper Delivery
     identifier: newspaperDelivery
@@ -1010,7 +1010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00009998989}
+  m_AnchoredPosition: {x: 0, y: -0.00003962846}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &970001894

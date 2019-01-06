@@ -9,8 +9,8 @@ public class Idles : MonoBehaviour {
     // Public Variables
     [Tooltip("The prefab that will be created for each buyable")] public Buyable idlePrefab;
     [Tooltip("The container that the idle prefabs will be put in")]public Transform prefabContainer;
-    public enum DisplayModes { DisplayAll, DisplayNextAfterPurchase, DisplayWhenFundsAvailable };
-    [Tooltip("The display mode for the idles.\n\nDisplayAll will show all when the game starts\n\nDisplayNextAfterPurchase will show the next unlock after the previous is unlocked\n\nDisplayWhenFundsAvailable will show once the player has the funds to unlock it (even if the previous upgrade is not yet purchased)")]
+    public enum DisplayModes { DisplayAll, DisplayNextAfterPurchase, DisplayWhenFundsAvailable, Custom };
+    [Tooltip("The display mode for the idles.\n\nDisplayAll will show all when the game starts\n\nDisplayNextAfterPurchase will show the next unlock after the previous is unlocked\n\nDisplayWhenFundsAvailable will show once the player has the funds to unlock it (even if the previous upgrade is not yet purchased)\n\nCustom by default will not do anything, but you are welcome to implement your own code in this script")]
     public DisplayModes displayMode;
     public BuyableData[] idles;
 
@@ -46,7 +46,7 @@ public class Idles : MonoBehaviour {
             }
 
             // Other options
-            else {
+            else if (displayMode != DisplayModes.Custom) {
                 // Show the first one regardless
                 DisplayBuyable(idles[0]);
 
@@ -63,6 +63,15 @@ public class Idles : MonoBehaviour {
 
                 // We're done here, other functions can now handle adding more
                 setupComplete = true;
+            }
+
+            // Custom option
+            else {
+                /*
+                 *  Feel free to implement your own code here to handle when to display a buyable
+                 *  To add a buyable to the screen, call DisplayBuyable() passing in BuyableData as a parameter
+                 *  The BuyableData can be fetched from the 'idles' variable - ie. DisplayBuyable(idles[0]) will show the first
+                 */
             }
         }
     }
