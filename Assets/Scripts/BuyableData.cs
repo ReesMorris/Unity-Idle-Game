@@ -14,6 +14,7 @@ public class BuyableData {
     // Public Variables
     [Header("General")]
     [Tooltip("The name of the idle")] public string name;
+    [Tooltip("A unique identifier. Do not change after being set or progress will be lost")] public string identifier;
     [Tooltip("The cost to purchase the first idle")] public double baseCost;
     [Tooltip("The rate of growth after every purchase, typically between 1.05 and 1.3")] public float growthRate;
     [Tooltip("The time (in seconds) the first idle will take to be completed")] public float baseTime;
@@ -169,14 +170,14 @@ public class BuyableData {
 
     // Update storage data
     public void SaveData() {
-        PlayerPrefs.SetInt("Idle" + name + "Owned", Owned);
-        PlayerPrefs.SetInt("Idle" + name + "HasManager", HasManager ? 1 : 0);
+        PlayerPrefs.SetInt("Idle" + identifier + "Owned", Owned);
+        PlayerPrefs.SetInt("Idle" + identifier + "HasManager", HasManager ? 1 : 0);
     }
 
     // Called by IdleManager when the game is loaded if the player has played before
     public void LoadData(int timeGone) {
-        Owned = PlayerPrefs.GetInt("Idle" + name + "Owned");
-        HasManager = PlayerPrefs.GetInt("Idle" + name + "HasManager") == 1;
+        Owned = PlayerPrefs.GetInt("Idle" + identifier + "Owned");
+        HasManager = PlayerPrefs.GetInt("Idle" + identifier + "HasManager") == 1;
         UpgradeActions();
         SetUpgradeCost();
         SetMinutelyProfit();
@@ -190,7 +191,7 @@ public class BuyableData {
     public void ResetData() {
         Owned = 0;
         HasManager = false;
-        PlayerPrefs.SetInt("Idle" + name + "Owned", 0);
-        PlayerPrefs.SetInt("Idle" + name + "HasManager", 0);
+        PlayerPrefs.SetInt("Idle" + identifier + "Owned", 0);
+        PlayerPrefs.SetInt("Idle" + identifier + "HasManager", 0);
     }
 }

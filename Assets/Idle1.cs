@@ -44,6 +44,7 @@ public class Idle1 : MonoBehaviour {
         Buyable.onProcessUpdate += OnProcessUpdate;
         Buyable.onProcessFinish += OnProcessFinish;
         Buyable.onManagerHired += OnManagerHired;
+        Buyable.onBuyablePurchase += OnBuyablePurchase;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
     }
 
@@ -54,7 +55,6 @@ public class Idle1 : MonoBehaviour {
 
     // Update the UI display with content from the Buyable Data
     void UpdateUI() {
-        upgradeTitleText.text = "UPGRADE";
         upgradeCostText.text = moneyManager.GetFormattedMoney(buyable.Data.Cost, false);
         profitText.text = moneyManager.GetFormattedMoney(buyable.Data.GetRevenue(), false);
         amountOwnedText.text = buyable.Data.Owned.ToString();
@@ -119,6 +119,13 @@ public class Idle1 : MonoBehaviour {
     void OnBuyableDataLoaded(BuyableData b) {
         if(b == buyable.Data) {
             UpdateUI();
+        }
+    }
+
+    // Called when a buyable is purchased (meaning 1 is now owned)
+    void OnBuyablePurchase(Buyable b) {
+        if(b == buyable) {
+            upgradeTitleText.text = "UPGRADE";
         }
     }
 }

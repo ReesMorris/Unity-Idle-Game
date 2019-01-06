@@ -116,7 +116,9 @@ public class MoneyManager : MonoBehaviour {
             displayMoney = displayMoney.Insert(decimalPos, ".");
 
             // Trim the fat
-            displayMoney = displayMoney.Substring(0, decimalPos + (1 + decimalPlaces));
+            int preferredLength = decimalPos + (1 + decimalPlaces);
+            if (displayMoney.Length > preferredLength)
+                displayMoney = displayMoney.Substring(0, preferredLength);
         }
 
         // Calculate what name to show

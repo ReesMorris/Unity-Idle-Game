@@ -15,7 +15,6 @@ public class Idles : MonoBehaviour {
     public BuyableData[] idles;
 
     // Private Variables
-    private bool initiated;
     private int displayIndex;
     private MoneyManager moneyManager;
     private List<Buyable> prefabs;
@@ -24,7 +23,9 @@ public class Idles : MonoBehaviour {
         Instance = this;
         prefabs = new List<Buyable>();
         GameManager.resetAllData += ResetData;
+        Buyable.onBuyablePurchase += OnBuyablePurchase;
         moneyManager = MoneyManager.Instance;
+        displayIndex = PlayerPrefs.GetInt("IdlesDisplayIndex");
     }
 
     void Start () {
@@ -32,23 +33,45 @@ public class Idles : MonoBehaviour {
     }
 
     void DisplayBuyables() {
+        if(idles.Length > 0) {
 
-        // Show all buyables from the start
-        if(displayMode == DisplayModes.DisplayAll) {
-            if(!initiated) {
-                initiated = true;
+            // Display all buyables from the start
+            if(displayMode == DisplayModes.DisplayAll) {
                 if (idles.Length == 0)
-                    Debug.LogWarning("There are no idles set in GameManager");
                 foreach(BuyableData buyable in idles) {
                     DisplayBuyable(buyable);
                 }
             }
-        }
 
-        // 
-        else if (displayMode == DisplayModes.DisplayNextAfterPurchase) {
+            // Other options
+            else {
+                // Show the first one regardless
+                DisplayBuyable(idles[0]);
 
+                // Also display ones that have already been purchased (+1 to show the next purchase)
+                for (int i = 1; i < displayIndex + 1; i++) {
+                    if(i < idles.Length)
+                        DisplayBuyable(idles[i]);
+                }
+            }
         }
+    }
+
+    // Called when a buyable is purchased (meaning 1 is now owned)
+    void OnBuyablePurchase(Buyable b) {
+        if(displayIndex < idles.Length) {
+            if(displayMode == DisplayModes.DisplayNextAfterPurchase) {
+                if(b.Data == idles[displayIndex]) {
+                    if (IncrementDisplayIndex() < idles.Length)
+                        DisplayBuyable(idles[displayIndex]);
+                }
+            }
+        }
+    }
+
+    int IncrementDisplayIndex() {
+        PlayerPrefs.SetInt("IdlesDisplayIndex", ++displayIndex);
+        return displayIndex;
     }
 
     void DisplayBuyable(BuyableData buyableData) {
@@ -64,8 +87,9 @@ public class Idles : MonoBehaviour {
             Destroy(prefabs[0].gameObject);
             prefabs.RemoveAt(0);
         }
+        displayIndex = 0;
+        PlayerPrefs.SetInt("IdlesDisplayIndex", 0);
         moneyManager.ResetData();
-        initiated = false;
         DisplayBuyables();
     }
 }
