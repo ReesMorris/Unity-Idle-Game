@@ -9,7 +9,7 @@ public class BuyableData {
     public static OnDataLoaded onDataLoaded;
 
     public enum ProductionAlgorithm { Standard, Multiplicative, Additive, Custom };
-    public enum ActionToTakeOnUpgrade { Standard, Custom, None };
+    public enum ActionToTakeOnUpgrade { Standard, Mixed, Custom, None };
 
     // Public Variables
     [Header("General")]
@@ -17,19 +17,20 @@ public class BuyableData {
     [Tooltip("The cost to purchase the first idle")] public double baseCost;
     [Tooltip("The rate of growth after every purchase, typically between 1.05 and 1.3")] public float growthRate;
     [Tooltip("The time (in seconds) the first idle will take to be completed")] public float baseTime;
-    [Tooltip("The amount received from every production on level 1")] public float initialRevenue;
+    [Tooltip("The amount received from every production on level 1")] public float baseProfit;
     [Tooltip("The cost to purchase a manager. Managers will automatically click for you once a process ends (and earn offline revenue!)")] public double managerCost;
     [Tooltip("The milestones used by the UpgradeActions function for either standard or custom actions")] public int[] upgradeMilestones = { 25, 50, 100, 200, 300, 400 };
 
     [Header("Calculations")]
     [Tooltip("The algorithm used to determine the cost of the next upgrade.\n\nStandard is the most popular algorithm for idle games and is\nbaseCost * (growthRate)^owned\n\nMultiplicative will only multiply by growthRate and is\nbaseCost * growthRate * owned\n\nAdditive will add all values together and is\nbaseCost + growthRate + owned\n\nCustom allows you to determine your own algorithm by modifying this script")] public ProductionAlgorithm productionAlgorithm;
-    [Tooltip("The action to complete when an upgrade is done.\n\nNone will do nothing\n\nStandard will half the time to produce every time the amount owned equals an upgradeMilestone\n\nCustom allows you to determine your own algorithm by modifying this script")] public ActionToTakeOnUpgrade actionToTakeOnUpgrade;
+    [Tooltip("The action to complete when an upgrade is done.\n\nNone will do nothing\n\nStandard will half the time to produce every time the amount owned equals an upgradeMilestone\n\nMixed will alternate between halfing the time to produce and doubling the profit each time (starting from half time, double profit, half time, ...)\n\nCustom allows you to determine your own algorithm by modifying this script")] public ActionToTakeOnUpgrade actionToTakeOnUpgrade;
 
     [Header("Other")]
     [Tooltip("The amount of money the player needs for this to appear (if DisplayWhenFundsAvailable is selected in GameManager/Idles)")] public double displayPrice;
 
     // Private & Protected Variables
     public float ProcessTime { get; protected set; }
+    public double Profit { get; protected set; }
     public double Cost { get; protected set; }
     public int Owned { get; protected set; }
     public int NextMilestoneIndex { get; protected set; }
@@ -44,6 +45,7 @@ public class BuyableData {
         gameManager = GameManager.Instance;
         ProcessTime = baseTime;
         Cost = baseCost;
+        Profit = baseProfit;
     }
 
     // Called to fetch the next buy cost
@@ -75,6 +77,14 @@ public class BuyableData {
             case ActionToTakeOnUpgrade.Standard:
                 while (ReachedMilestone())
                     ProcessTime /= 2f;
+                break;
+            case ActionToTakeOnUpgrade.Mixed:
+                while (ReachedMilestone())
+                    if (NextMilestoneIndex % 2 == 1)
+                        ProcessTime /= 2f;
+                    else
+                        Profit *= 2;
+
                 break;
             case ActionToTakeOnUpgrade.Custom:
                 // If you wish to use a custom algorithm, drop it here.
@@ -129,7 +139,7 @@ public class BuyableData {
 
     // Called to get the amount earned from a single process
     public double GetRevenue() {
-        return initialRevenue * Owned * multiplier;
+        return Profit * Owned * multiplier;
     }
 
     // Begin a process

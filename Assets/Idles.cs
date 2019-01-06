@@ -37,6 +37,8 @@ public class Idles : MonoBehaviour {
         if(displayMode == DisplayModes.DisplayAll) {
             if(!initiated) {
                 initiated = true;
+                if (idles.Length == 0)
+                    Debug.LogWarning("There are no idles set in GameManager");
                 foreach(BuyableData buyable in idles) {
                     DisplayBuyable(buyable);
                 }

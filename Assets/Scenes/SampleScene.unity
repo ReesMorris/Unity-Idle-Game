@@ -844,17 +844,17 @@ MonoBehaviour:
     baseCost: 3.738
     growthRate: 1.07
     baseTime: 0.6
-    initialRevenue: 1
+    baseProfit: 1
     managerCost: 1000
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
-    actionToTakeOnUpgrade: 0
+    actionToTakeOnUpgrade: 1
     displayPrice: 0
   - name: Newspaper Delivery
     baseCost: 60
     growthRate: 1.15
     baseTime: 3
-    initialRevenue: 60
+    baseProfit: 6
     managerCost: 15000
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
@@ -864,7 +864,7 @@ MonoBehaviour:
     baseCost: 720
     growthRate: 1.14
     baseTime: 6
-    initialRevenue: 540
+    baseProfit: 540
     managerCost: 100000
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
     baseCost: 8640
     growthRate: 1.13
     baseTime: 12
-    initialRevenue: 4320
+    baseProfit: 4320
     managerCost: 500000
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
