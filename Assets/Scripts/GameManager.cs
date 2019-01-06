@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
         return timestamp + Time.time;
     }
 
+    // Return a timestamp of a future time
     public float FutureTime(float secondsAhead) {
         return TimeNow() + secondsAhead;
     }

@@ -18,15 +18,18 @@ public class Idle1 : MonoBehaviour {
     public Text profitText;
     public Text managerCostText;
     public Text amountOwnedText;
+    public Text timerText;
     public Image progressFill;
     public Image ownedFill;
 
     // Private Variables
     Buyable buyable;
+    Utilities utilities;
     MoneyManager moneyManager;
 
     void Awake() {
         buyable = GetComponent<Buyable>();
+        utilities = Utilities.Instance;
         moneyManager = MoneyManager.Instance;
 
         // Events to tell the Buyable script (attached) that we're interacting
@@ -44,6 +47,7 @@ public class Idle1 : MonoBehaviour {
 
     void Start() {
         UpdateUI();
+        StartCoroutine(UpdateTimer());
     }
 
     // Update the UI display with content from the Buyable Data
@@ -53,6 +57,18 @@ public class Idle1 : MonoBehaviour {
         amountOwnedText.text = buyable.Data.Owned.ToString();
         ownedFill.fillAmount = buyable.Data.NextMilestonePercentage();
         managerCostText.text = moneyManager.GetFormattedMoney(buyable.Data.managerCost, false);
+    }
+
+    IEnumerator UpdateTimer() {
+        while(true) {
+            print(buyable.Data.MinutelyProfit);
+            if(buyable.Data.ProcessInProgress()) {
+                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.SecondsToProcessCompletion());
+            } else {
+                timerText.text = utilities.SecondsToHHMMSS(buyable.Data.ProcessTime);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     /* Event listeners from the Buyable delegate */

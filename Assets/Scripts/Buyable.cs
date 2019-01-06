@@ -32,7 +32,7 @@ public class Buyable : MonoBehaviour {
     }
 
     public void RunProcess() {
-        if(Data.Owned > 0 && Data.ProcessCompleteTime < gameManager.TimeNow()) {
+        if(Data.Owned > 0 && !Data.ProcessInProgress()) {
             Data.BeginProcess();
             StartCoroutine(Process());
 
@@ -68,7 +68,7 @@ public class Buyable : MonoBehaviour {
     // Handles the process UI
     IEnumerator Process() {
         // Run continuously whilst the process is not complete
-        while(gameManager.TimeNow() < Data.ProcessCompleteTime) {
+        while(Data.ProcessInProgress()) {
             float progress = Data.GetProcessCompletion();
             if(onProcessUpdate != null)
                 onProcessUpdate(this, progress);

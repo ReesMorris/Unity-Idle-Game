@@ -1115,6 +1115,7 @@ MonoBehaviour:
   profitText: {fileID: 114705419527128920}
   managerCostText: {fileID: 114589547685331280}
   amountOwnedText: {fileID: 114313265590385968}
+  timerText: {fileID: 114318025597515474}
   progressFill: {fileID: 114165326697671846}
   ownedFill: {fileID: 114937556419161466}
 --- !u!114 &114694222111295394

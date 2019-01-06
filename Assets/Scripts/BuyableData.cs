@@ -27,6 +27,7 @@ public class BuyableData {
     public bool HasManager { get; protected set; }
     public float ProcessCompleteTime { get; protected set; }
     public float ProcessStartTime { get; protected set; }
+    public double MinutelyProfit { get; protected set; }
     private float multiplier = 1;
     private GameManager gameManager;
 
@@ -49,6 +50,14 @@ public class BuyableData {
             default:
                 Cost = baseCost * Mathf.Pow(growthRate, Owned); break;
         }
+    }
+
+    // Set the minutely profit based on current upgrades
+    void SetMinutelyProfit() {
+        if (!HasManager)
+            MinutelyProfit = 0f;
+        else
+            MinutelyProfit = (60f / ProcessTime) * GetRevenue();
     }
 
     // Called when the item is upgraded
@@ -93,11 +102,18 @@ public class BuyableData {
         Owned++;
         UpgradeActions();
         SetUpgradeCost();
+        SetMinutelyProfit();
+    }
+
+    // Returns true if a process is currently in progress
+    public bool ProcessInProgress() {
+        return gameManager.TimeNow() < ProcessCompleteTime;
     }
 
     // Called by other functions to set a manager
     public void AddManager() {
         HasManager = true;
+        SetMinutelyProfit();
     }
 
     // Called to get the amount earned from a single process
@@ -107,7 +123,7 @@ public class BuyableData {
 
     // Begin a process
     public void BeginProcess() {
-        if(ProcessCompleteTime < gameManager.TimeNow()) {
+        if(!ProcessInProgress()) {
             ProcessStartTime = gameManager.TimeNow();
             ProcessCompleteTime = gameManager.FutureTime(ProcessTime);
         }
