@@ -26,9 +26,6 @@ public class BuyableData {
     [Tooltip("The algorithm used to determine the cost of the next upgrade.\n\nStandard is the most popular algorithm for idle games and is\nbaseCost * (growthRate)^owned\n\nMultiplicative will only multiply by growthRate and is\nbaseCost * growthRate * owned\n\nAdditive will add all values together and is\nbaseCost + growthRate + owned\n\nCustom allows you to determine your own algorithm by modifying this script")] public ProductionAlgorithm productionAlgorithm;
     [Tooltip("The action to complete when an upgrade is done.\n\nNone will do nothing\n\nStandard will half the time to produce every time the amount owned equals an upgradeMilestone\n\nMixed will alternate between halfing the time to produce and doubling the profit each time (starting from half time, double profit, half time, ...)\n\nCustom allows you to determine your own algorithm by modifying this script")] public ActionToTakeOnUpgrade actionToTakeOnUpgrade;
 
-    [Header("Other")]
-    [Tooltip("The amount of money the player needs for this to appear (if DisplayWhenFundsAvailable is selected in GameManager/Idles)")] public double displayPrice;
-
     // Private & Protected Variables
     public float ProcessTime { get; protected set; }
     public double Profit { get; protected set; }

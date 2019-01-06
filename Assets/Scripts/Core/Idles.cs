@@ -39,7 +39,6 @@ public class Idles : MonoBehaviour {
 
             // Display all buyables from the start
             if(displayMode == DisplayModes.DisplayAll) {
-                if (idles.Length == 0)
                 foreach(BuyableData buyable in idles) {
                     DisplayBuyable(buyable);
                 }
