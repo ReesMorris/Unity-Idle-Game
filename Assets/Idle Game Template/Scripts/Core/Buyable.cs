@@ -64,6 +64,7 @@ public class Buyable : MonoBehaviour {
     // Called by the script attached to this when a manager button is pressed
     public void BuyManagerButtonPressed() {
         if (!Data.HasManager && Data.Owned > 0 && moneyManager.CanAffordPurchase(Data.managerCost)) {
+            moneyManager.ReduceMoney(Data.managerCost);
             Data.AddManager();
             RestartProcess();
 
