@@ -56,7 +56,7 @@ public class IdleManager : MonoBehaviour {
             secondsGone = Mathf.Min(secondsGone, maxSeconds);
 
             // Calculate the amount earned offline and give it to the player
-            double idleEarnings = moneyManager.CalculateMinutelyProfit() / (60f / secondsGone);
+            double idleEarnings = moneyManager.ActualIdleProfit();
             moneyManager.AddMoney(idleEarnings);
 
             // Tell other scripts we've loaded, incase they want to do anything with the new data

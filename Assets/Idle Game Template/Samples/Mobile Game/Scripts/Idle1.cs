@@ -69,6 +69,9 @@ public class Idle1 : MonoBehaviour {
 
     // Update the UI display with content from the Buyable Data
     void UpdateUI() {
+        // We need this here for when the game loads up again
+        if(buyable.Data.Owned > 0)
+            upgradeTitleText.text = "UPGRADE";
         upgradeCostText.text = moneyManager.GetFormattedMoney(buyable.Data.Cost, false);
         profitText.text = moneyManager.GetFormattedMoney(buyable.Data.GetRevenue(), false);
         amountOwnedText.text = buyable.Data.Owned.ToString();
@@ -139,7 +142,7 @@ public class Idle1 : MonoBehaviour {
     // Called when a buyable is purchased (meaning 1 is now owned)
     void OnBuyablePurchase(Buyable b) {
         if(b == buyable) {
-            upgradeTitleText.text = "UPGRADE";
+
         }
     }
 }

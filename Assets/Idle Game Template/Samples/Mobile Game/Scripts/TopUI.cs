@@ -41,6 +41,6 @@ public class TopUI : MonoBehaviour {
 
     // Update the UI text to show the new income per minute
     void UpdateIncomePerMinute() {
-        incomePerMinute.text = moneyManager.GetFormattedMoney(moneyManager.CalculateMinutelyProfit(), false) + "/min";
+        incomePerMinute.text = moneyManager.GetFormattedMoney(moneyManager.EstimateMinutelyProfit(), false) + "/min";
     }
 }

@@ -40,13 +40,18 @@ public class UIButton : MonoBehaviour {
 
     void SetUI() {
         if(buyable != null) {
-            double cost = buyable.Data.Cost;
-            if (buttonType == ButtonTypes.ManagerBuy)
-                cost = buyable.Data.managerCost;
-            if (moneyManager.Money > cost)
-                Enable();
-            else
+            if (buttonType == ButtonTypes.ManagerBuy && buyable.Data.Owned == 0) {
                 Disable();
+            } else {
+                double cost = buyable.Data.Cost;
+                if (buttonType == ButtonTypes.ManagerBuy) {
+                    cost = buyable.Data.managerCost;
+                }
+                if (moneyManager.Money > cost)
+                    Enable();
+                else
+                    Disable();
+            }
         }
     }
 	

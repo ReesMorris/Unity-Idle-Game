@@ -181,11 +181,20 @@ public class MoneyManager : MonoBehaviour {
         }
     }
 
-    // Calculates total profits per minute
-    public double CalculateMinutelyProfit() {
+    // Calculates the actual profits whilst idle
+    public double ActualIdleProfit() {
         double total = 0;
         foreach(BuyableData data in Idles.Instance.idles) {
             total += data.IdleEarnings;
+        }
+        return total * (gameManager.idleEarnings / 100f);
+    }
+
+    // Returns an estimate for minutely profits
+    public double EstimateMinutelyProfit() {
+        double total = 0;
+        foreach(BuyableData data in Idles.Instance.idles) {
+            total += data.MinutelyProfit;
         }
         return total * (gameManager.idleEarnings / 100f);
     }

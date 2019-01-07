@@ -194,7 +194,7 @@ public class BuyableData {
         // Calculate the earnings whilst idle
         IdleEarnings = 0;
         if(HasManager) {
-            IdleEarnings = Mathf.Floor(timeGone / ProcessTime) * Profit;
+            IdleEarnings = Mathf.Floor(timeGone / ProcessTime) * GetRevenue();
         }
 
         // Calculate the progress the timer should be at when returning
