@@ -35,39 +35,54 @@ public class MoneyManager : MonoBehaviour {
 
     void Awake() {
         Instance = this;
-        gameManager = GameManager.Instance;
     }
 
-    // Called when the game begins
-    void Start() {
-
+    void OnSetup() {
         // Set up the lists to contain all money names used in the game
         SetupMoneyNames();
+
+        // Add references
+        gameManager = GameManager.Instance;
 
         // Add listeners
         onMoneyChanged += OnBalanceChanged;
         Buyable.onVariableChanged += OnBuyableChange;
         Buyable.onManagerHired += OnBuyableChange;
         IdleManager.onLoaded += UpdateIncomePerMinute;
+    }
 
+    // Set up the money (called during init phase of GameManager)
+    public void Setup() {
+        OnSetup();
+        SetStartingMoney();
+    }
+
+    // Set the starting money UI
+    void SetStartingMoney() {
+        gameManager.ProcessBegin();
         if (PlayerPrefs.GetString("Money") == "")
             SetMoney(startingMoney);
         else
             SetMoney(double.Parse(PlayerPrefs.GetString("Money")));
         UpdateIncomePerMinute();
+        gameManager.ProcessComplete();
     }
     
     // Set our balance to a specific amount
     public void SetMoney(double amount) {
         Money = amount;
-        onMoneyChanged(Money);
+
+        // Tell other scripts our balance has changed
+        if (onMoneyChanged != null)
+            onMoneyChanged(Money);
     }
 
     public void AddMoney(double amount) {
         Money += amount;
 
-        // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged(Money);
+        // Tell other scripts our balance has changed
+        if(onMoneyChanged != null)
+            onMoneyChanged(Money);
     }
 
     public void ReduceMoney(double amount) {
@@ -77,8 +92,9 @@ public class MoneyManager : MonoBehaviour {
             if (Money < 0)
                 Money = 0;
 
-        // Call the delegate for when our balance is changed (so other scripts can use it too)
-        onMoneyChanged(Money);
+        // Tell other scripts our balance has changed
+        if (onMoneyChanged != null)
+            onMoneyChanged(Money);
     }
 
     public bool CanAffordPurchase(double cost) {

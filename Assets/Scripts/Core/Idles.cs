@@ -19,22 +19,32 @@ public class Idles : MonoBehaviour {
     private MoneyManager moneyManager;
     private List<Buyable> prefabs;
     private bool setupComplete;
+    private GameManager gameManager;
 
     void Awake () {
         Instance = this;
         prefabs = new List<Buyable>();
-        GameManager.resetAllData += ResetData;
-        displayIndex = PlayerPrefs.GetInt("IdlesDisplayIndex");
-        Buyable.onBuyablePurchase += OnBuyablePurchase;
-        MoneyManager.onMoneyChanged += OnMoneyChanged;
-        moneyManager = MoneyManager.Instance;
     }
 
-    void Start () {
+    void OnSetup () {
+        moneyManager = MoneyManager.Instance;
+        gameManager = GameManager.Instance;
+        displayIndex = PlayerPrefs.GetInt("IdlesDisplayIndex");
+
+        // Add event listeners
+        Buyable.onBuyablePurchase += OnBuyablePurchase;
+        MoneyManager.onMoneyChanged += OnMoneyChanged;
+        GameManager.resetAllData += ResetData;
+    }
+
+    // Set up the idles (called during init phase of GameManager)
+    public void Setup() {
+        OnSetup();
         DisplayBuyables();
     }
 
     void DisplayBuyables() {
+        gameManager.ProcessBegin();
         if(idles.Length > 0) {
 
             // Display all buyables from the start
@@ -73,6 +83,7 @@ public class Idles : MonoBehaviour {
                  */
             }
         }
+        gameManager.ProcessComplete();
     }
 
     // Called when a buyable is purchased (meaning 1 is now owned)

@@ -28,7 +28,7 @@ public class Idle1 : MonoBehaviour {
     Utilities utilities;
     MoneyManager moneyManager;
 
-    void Awake() {
+    void Start() {
         buyable = GetComponent<Buyable>();
         utilities = Utilities.Instance;
         moneyManager = MoneyManager.Instance;
@@ -46,9 +46,12 @@ public class Idle1 : MonoBehaviour {
         Buyable.onManagerHired += OnManagerHired;
         Buyable.onBuyablePurchase += OnBuyablePurchase;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
+        GameManager.onLoadingComplete += OnLoadingComplete;
     }
 
-    void Start() {
+    // The network is ready; let's go!
+    void OnLoadingComplete() {
+        GameManager.onLoadingComplete -= OnLoadingComplete;
         UpdateUI();
         StartCoroutine(UpdateTimer());
     }

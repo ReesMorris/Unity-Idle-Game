@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IdleManager : MonoBehaviour {
 
+    public static IdleManager Instance;
+
     public delegate void OnLoaded();
     public static OnLoaded onLoaded;
 
@@ -14,29 +16,35 @@ public class IdleManager : MonoBehaviour {
     private GameManager gameManager;
     private Idles idles;
     private MoneyManager moneyManager;
-    private int idlesLoaded;
     private Utilities utilities;
 
     void Awake() {
+        Instance = this;
+    }
+
+    void OnSetup() {
+        // Add references to other scripts
         gameManager = GameManager.Instance;
         utilities = Utilities.Instance;
         idles = Idles.Instance;
-
         moneyManager = MoneyManager.Instance;
+        gameManager = GameManager.Instance;
     }
 
-    void Start() {
+    // Set up the money (called during init phase of GameManager)
+    public void Setup() {
+        OnSetup();
         LoadData();
     }
 
-    bool isPaused;
-
     // Load the data when the player returns to the game
     void LoadData() {
+        gameManager.ProcessBegin();
         string timeQuit = PlayerPrefs.GetString("TimeQuit");
 
         // Do we have data about the last time the user played?
         if(timeQuit != "") {
+
             double difference = gameManager.TimeNow() - double.Parse(PlayerPrefs.GetString("TimeQuit"));
             int secondsGone = (int)Mathf.Floor((float)difference);
 
@@ -63,9 +71,12 @@ public class IdleManager : MonoBehaviour {
                 print("You earned " + moneyManager.GetFormattedMoney(idleEarnings, false) + " whilst you were away");
             }
         }
+        gameManager.ProcessComplete();
     }
 
+    // Store the time we're quitting, if we are in the game successfully
     void OnApplicationQuit() {
-        PlayerPrefs.SetString("TimeQuit", gameManager.TimeNow().ToString());
+        if(gameManager != null)
+            PlayerPrefs.SetString("TimeQuit", gameManager.TimeNow().ToString());
     }
 }

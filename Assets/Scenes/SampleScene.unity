@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -169,7 +169,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 81
+    m_FontSize: 97
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Loading ...
+  m_Text: Loading (0%)
 --- !u!222 &131519398
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -786,10 +786,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bce74da290223d41ba26935ed8c9d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalRevenueMultiplier: 1
   idleEarnings: 60
   idleHours: 1
-  pullTimeFromUrl: 0
-  timeUrl: 
+  pullTimeFromUrl: 1
+  timeUrl: https://rees.app/idle/i/time
 --- !u!4 &780995085
 Transform:
   m_ObjectHideFlags: 0
@@ -880,7 +881,7 @@ MonoBehaviour:
     baseTime: 12
     baseProfit: 4320
     managerCost: 500000
-    maxAmount: 0
+    maxAmount: 400
     upgradeMilestones: 190000003200000064000000c80000002c01000090010000
     productionAlgorithm: 0
     actionToTakeOnUpgrade: 0
@@ -1010,7 +1011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00003962846}
+  m_AnchoredPosition: {x: 0, y: -0.000054489683}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &970001894
@@ -1446,13 +1447,14 @@ GameObject:
   - component: {fileID: 1324474260}
   - component: {fileID: 1324474262}
   - component: {fileID: 1324474261}
+  - component: {fileID: 1324474263}
   m_Layer: 5
   m_Name: Loading Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1324474260
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1484,14 +1486,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.38892847, g: 0.7169812, b: 0.6516455, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1506,6 +1508,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1324474259}
   m_CullTransparentMesh: 0
+--- !u!114 &1324474263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1324474259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d128200a7d64e4bb9ebc7a26094472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingText: {fileID: 131519397}
 --- !u!1001 &1347596425
 Prefab:
   m_ObjectHideFlags: 0

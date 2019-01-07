@@ -140,7 +140,7 @@ public class BuyableData {
 
     // Called to get the amount earned from a single process
     public double GetRevenue() {
-        return Profit * Owned * multiplier;
+        return Profit * Owned * multiplier * gameManager.globalRevenueMultiplier;
     }
 
     // Begin a process

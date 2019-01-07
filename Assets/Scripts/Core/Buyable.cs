@@ -24,11 +24,11 @@ public class Buyable : MonoBehaviour {
     private GameManager gameManager;
 
     public void Init(BuyableData buyableData) {
+        // Set up the data
         Data = buyableData;
         Data.Init();
-    }
 
-    void Awake() {
+        // Add references and events
         gameManager = GameManager.Instance;
         moneyManager = MoneyManager.Instance;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
@@ -68,6 +68,8 @@ public class Buyable : MonoBehaviour {
         if (!Data.HasManager && Data.Owned > 0 && moneyManager.CanAffordPurchase(Data.managerCost)) {
             Data.AddManager();
             RestartProcess();
+
+            // Trigger the event to say that a manager has been hired
             if (onManagerHired != null)
                 onManagerHired(this);
         }

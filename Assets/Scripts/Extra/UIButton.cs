@@ -15,15 +15,21 @@ public class UIButton : MonoBehaviour {
     private Image image;
     public bool Pressed { get; protected set; }
     private MoneyManager moneyManager;
-	
-	void Awake () {
-        button = GetComponent<Button>();
-        image = GetComponent<Image>();
-        moneyManager = MoneyManager.Instance;
-        MoneyManager.onMoneyChanged += OnMoneyChanged;
-    }
 
     void Start() {
+        button = GetComponent<Button>();
+        image = GetComponent<Image>();
+
+        // Get references to other scripts
+        moneyManager = MoneyManager.Instance;
+
+        // Add event listeners
+        MoneyManager.onMoneyChanged += OnMoneyChanged;
+        GameManager.onLoadingComplete += OnLoadingComplete;
+    }
+
+    // The network is ready; let's go
+    void OnLoadingComplete() {
         SetUI();
     }
 
