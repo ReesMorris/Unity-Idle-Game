@@ -1127,6 +1127,90 @@ MonoBehaviour:
     sprites:
     - {fileID: 21300000, guid: c53e54cd2a1814b01937cae84cb7e57d, type: 3}
     - {fileID: 21300000, guid: fa1ae149e959848378ce09e81a73161d, type: 3}
+  - name: Donut Shop
+    identifier: donutSHop
+    baseCost: 103680
+    growthRate: 1.12
+    baseTime: 24
+    baseProfit: 51840
+    managerCost: 1200000
+    maxAmount: 400
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: c7ee8d456fcdb4fae9402779ec299dfe, type: 3}
+    - {fileID: 21300000, guid: 2af31202454b840b2ad4eabe82f9bb86, type: 3}
+  - name: Shrimp Boat
+    identifier: shrimpBoat
+    baseCost: 1244160
+    growthRate: 1.11
+    baseTime: 96
+    baseProfit: 622080
+    managerCost: 10000000
+    maxAmount: 400
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: bd58fff4d8c1244088a03b8f7b81b468, type: 3}
+    - {fileID: 21300000, guid: 863dc4d90d55c4ab3a021b8230fef385, type: 3}
+  - name: Hockey Team
+    identifier: hockeyTeam
+    baseCost: 14929920
+    growthRate: 1.1
+    baseTime: 384
+    baseProfit: 7464960
+    managerCost: 1200000
+    maxAmount: 111111111
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: e5900e7e6a5024ed38f1551ece0af3a9, type: 3}
+    - {fileID: 21300000, guid: 7bfab3dbf293244a8ab02a91bbe87b5c, type: 3}
+  - name: Movie Studio
+    identifier: movieStudio
+    baseCost: 179159040
+    growthRate: 1.09
+    baseTime: 1536
+    baseProfit: 89579520
+    managerCost: 555555555
+    maxAmount: 400
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: 1473e45f27ec24ee6bc11d1819394b69, type: 3}
+    - {fileID: 21300000, guid: 5f7c5d7e38c7d4525a324ea18e363f87, type: 3}
+  - name: Bank
+    identifier: bank
+    baseCost: 2149908480
+    growthRate: 1.08
+    baseTime: 6144
+    baseProfit: 1.0749542e+9
+    managerCost: 10000000000
+    maxAmount: 400
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: d7c9ddfc8d60146faae5acf03ee5a77e, type: 3}
+    - {fileID: 21300000, guid: aa9f64d53a2b14b86b5b7ec3b67c4657, type: 3}
+  - name: Oil Company
+    identifier: oilCompany
+    baseCost: 25798901760
+    growthRate: 1.07
+    baseTime: 36864
+    baseProfit: 2.9668737e+10
+    managerCost: 100000000000
+    maxAmount: 400
+    upgradeMilestones: 190000003200000064000000c80000002c01000090010000
+    productionAlgorithm: 0
+    actionToTakeOnMilestone: 0
+    sprites:
+    - {fileID: 21300000, guid: b140a64e56b954d2ba9ed63e718a21dd, type: 3}
+    - {fileID: 21300000, guid: 63438b2748da94baf94c72921d40395c, type: 3}
 --- !u!114 &780995088
 MonoBehaviour:
   m_ObjectHideFlags: 0
