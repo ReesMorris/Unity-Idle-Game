@@ -1075,7 +1075,7 @@ MonoBehaviour:
     identifier: lemonadeStand
     baseCost: 3.738
     growthRate: 1.07
-    baseTime: 0.6
+    baseTime: 50
     baseProfit: 1
     managerCost: 1000
     maxAmount: 400

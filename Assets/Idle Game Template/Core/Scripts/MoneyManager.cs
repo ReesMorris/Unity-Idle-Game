@@ -185,7 +185,7 @@ public class MoneyManager : MonoBehaviour {
     public double CalculateMinutelyProfit() {
         double total = 0;
         foreach(BuyableData data in Idles.Instance.idles) {
-            total += data.MinutelyProfit;
+            total += data.IdleEarnings;
         }
         return total * (gameManager.idleEarnings / 100f);
     }

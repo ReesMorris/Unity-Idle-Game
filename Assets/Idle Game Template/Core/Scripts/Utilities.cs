@@ -16,7 +16,7 @@ public class Utilities : MonoBehaviour {
         double seconds = totalSeconds % 60;
 
         if(hours > 0 || alwaysShowHours)
-            return string.Format("{0}:{1}:{2}", hours.ToString("00"), minutes.ToString("00"), seconds.ToString("00"));
+            return string.Format("{0}:{1}:{2}", hours.ToString("00"), Mathf.Floor((float)minutes).ToString("00"), seconds.ToString("00"));
         else
             return string.Format("{0}:{1}", minutes.ToString("00"), seconds.ToString("00"));
     }

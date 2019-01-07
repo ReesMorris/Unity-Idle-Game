@@ -1,18 +1,16 @@
 ﻿<Properties StartupConfiguration="{E80E9977-2DDF-774F-38D9-C54F28D0CC0B}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/MoneyNames.txt">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Idle Game Template/Core/Scripts/Utilities.cs">
     <Files>
-      <File FileName="Assets/Idle Game Template/Scripts/Samples/Idle1.cs" Line="125" Column="30" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/IdleManager.cs" Line="70" Column="20" />
-      <File FileName="Assets/WelcomeBackUI.cs" Line="35" Column="40" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/GameManager.cs" Line="13" Column="71" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/MoneyManager.cs" Line="75" Column="9" />
-      <File FileName="Assets/Idle Game Template/Scripts/Extra/TopUI.cs" Line="42" Column="60" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/MoneyManagerEditor.cs" Line="42" Column="7" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/GameManagerEditor.cs" Line="10" Column="20" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/Idles.cs" Line="135" Column="1" />
-      <File FileName="Assets/Idle Game Template/Scripts/Core/Buyable.cs" Line="70" Column="13" />
       <File FileName="Assets/Resources/MoneyNames.txt" Line="1" Column="11" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/Idles.cs" Line="1" Column="1" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/IdleManager.cs" Line="51" Column="44" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/MoneyManager.cs" Line="188" Column="1" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/BuyableData.cs" Line="239" Column="20" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/Buyable.cs" Line="96" Column="65" />
+      <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/Idle1.cs" Line="1" Column="1" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/GameManager.cs" Line="123" Column="48" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/Utilities.cs" Line="16" Column="53" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

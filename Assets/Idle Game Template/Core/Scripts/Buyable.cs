@@ -43,6 +43,15 @@ public class Buyable : MonoBehaviour {
         }
     }
 
+    // Used for when we load the data
+    void ContinueProcess() {
+        StartCoroutine(Process());
+
+        // Send an event out to say that we've updated some variable (so the UI can be updated)
+        if (onProcessBegin != null)
+            onProcessBegin(this);
+    }
+
     // Called by the script attached to this buyable when the upgrade button is pressed
     public void UpgradeButtonPressed() {
         if (moneyManager.CanAffordPurchase(Data.Cost)) {
@@ -84,7 +93,7 @@ public class Buyable : MonoBehaviour {
                 onProcessUpdate(this, progress);
 
             // Repeat every duration/120f seconds; if a process takes 1 hour there's no need to update UI every frame
-            yield return new WaitForSeconds(Data.ProcessTime / 120f);
+            yield return new WaitForSeconds(Data.ProcessTime / 220f);
         }
 
         // The process is complete
@@ -100,7 +109,7 @@ public class Buyable : MonoBehaviour {
     // Called when a Buyable's Data is loaded
     void OnBuyableDataLoaded(BuyableData data) {
         if(data == Data) {
-            RestartProcess();
+            ContinueProcess();
         }
     }
 

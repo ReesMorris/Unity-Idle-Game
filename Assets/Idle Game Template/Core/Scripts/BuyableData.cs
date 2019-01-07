@@ -41,6 +41,7 @@ public class BuyableData {
     public double ProcessCompleteTime { get; protected set; }
     public double ProcessStartTime { get; protected set; }
     public double MinutelyProfit { get; protected set; }
+    public double IdleEarnings { get; protected set; }
     private float multiplier = 1;
     private GameManager gameManager;
 
@@ -78,15 +79,19 @@ public class BuyableData {
     void UpgradeActions() {
         switch(actionToTakeOnMilestone) {
             case ActionToTakeOnMilestone.Standard:
-                while (ReachedMilestone())
+                while (ReachedMilestone()) {
                     ProcessTime /= 2f;
+                    ProcessCompleteTime -= ProcessTime;
+                }
                 break;
             case ActionToTakeOnMilestone.Mixed:
                 while (ReachedMilestone())
-                    if (NextMilestoneIndex % 2 == 1)
+                    if (NextMilestoneIndex % 2 == 1) {
                         ProcessTime /= 2f;
-                    else
+                        ProcessCompleteTime -= ProcessTime;
+                    } else {
                         Profit *= 2;
+                    }
                 break;
             case ActionToTakeOnMilestone.Custom:
                 // If you wish to use a custom algorithm, drop it here.
@@ -175,6 +180,7 @@ public class BuyableData {
     public void SaveData() {
         PlayerPrefs.SetInt("Idle" + identifier + "Owned", Owned);
         PlayerPrefs.SetInt("Idle" + identifier + "HasManager", HasManager ? 1 : 0);
+        PlayerPrefs.SetString("Idle" + identifier + "TimeRemaining", SecondsToProcessCompletion().ToString());
     }
 
     // Called by IdleManager when the game is loaded if the player has played before
@@ -185,8 +191,37 @@ public class BuyableData {
         SetUpgradeCost();
         SetMinutelyProfit();
 
+        // Calculate the earnings whilst idle
+        IdleEarnings = 0;
+        if(HasManager) {
+            IdleEarnings = Mathf.Floor(timeGone / ProcessTime) * Profit;
+        }
+
+        // Calculate the progress the timer should be at when returning
+        double timeRemaining = -1;
+        double.TryParse(PlayerPrefs.GetString("Idle" + identifier + "TimeRemaining"), out timeRemaining);
+
+        if(timeGone < timeRemaining) {
+            ProcessStartTime = gameManager.PastTime(ProcessTime - timeRemaining);
+            ProcessCompleteTime = gameManager.FutureTime(timeRemaining - timeGone);
+        } else {
+            if(HasManager) {
+                if(timeRemaining != -1) {
+                    double counter = timeGone - timeRemaining;
+                    while(counter > 0)
+                        counter -= ProcessTime;
+
+                    ProcessStartTime = gameManager.PastTime(ProcessTime + counter);
+                    ProcessCompleteTime = gameManager.FutureTime(-counter);
+                    SaveData();
+                }
+            }
+        }
+
+        SaveData();
+
         // Tell other scripts that we've loaded the save data
-        if(onDataLoaded != null)
+        if (onDataLoaded != null)
             onDataLoaded(this);
     }
 
@@ -196,5 +231,6 @@ public class BuyableData {
         HasManager = false;
         PlayerPrefs.SetInt("Idle" + identifier + "Owned", 0);
         PlayerPrefs.SetInt("Idle" + identifier + "HasManager", 0);
+        PlayerPrefs.SetString("Idle" + identifier + "TimeRemaining", "");
     }
 }

@@ -72,6 +72,12 @@ public class IdleManager : MonoBehaviour {
 
     // Store the time we're quitting, if we are in the game successfully
     void OnApplicationQuit() {
+
+        // Save all idle data (we have to do it here since BuyableData does not derive from MonoBehaviour)
+        foreach(BuyableData data in idles.idles) {
+            data.SaveData();
+        }
+
         if(gameManager != null)
             PlayerPrefs.SetString("TimeQuit", gameManager.TimeNow().ToString());
     }

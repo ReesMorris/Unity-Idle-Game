@@ -118,6 +118,13 @@ public class GameManager : MonoBehaviour {
         return TimeNow() + secondsAhead;
     }
 
+    // Return a timestamp of a past time
+    public double PastTime(double secondsBefore) {
+        double time = TimeNow() - secondsBefore;
+        if (time < 0) return 0;
+        return time;
+    }
+
     // Call this function to reset all of a player's progress
     public void Reset() {
         if (resetAllData != null)
