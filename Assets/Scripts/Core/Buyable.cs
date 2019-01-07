@@ -21,7 +21,6 @@ public class Buyable : MonoBehaviour {
     // Private & Protected Variables
     public BuyableData Data { get; private set; }
     private MoneyManager moneyManager;
-    private GameManager gameManager;
 
     public void Init(BuyableData buyableData) {
         // Set up the data
@@ -29,7 +28,6 @@ public class Buyable : MonoBehaviour {
         Data.Init();
 
         // Add references and events
-        gameManager = GameManager.Instance;
         moneyManager = MoneyManager.Instance;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
     }

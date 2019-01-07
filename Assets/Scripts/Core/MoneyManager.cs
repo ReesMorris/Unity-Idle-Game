@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
 
 public class MoneyManager : MonoBehaviour {
@@ -12,13 +10,8 @@ public class MoneyManager : MonoBehaviour {
     // Define the instance so we can use it easily from other scripts
     public static MoneyManager Instance;
 
-    // Public Variables
-    [Header("UI Elements")]
-    [Tooltip("The UI element of the text which displays our money")] public Text moneyText;
-    [Tooltip("The filename of the text file containing names of money. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
-    [Tooltip("The text showing the income per minute")] public Text incomePerMinute;
-
     [Header("Config")]
+    [Tooltip("The filename of the text file containing names of money. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
     [Tooltip("The amount of money the player starts the game with")] public float startingMoney;
     [Tooltip("The currency icon used throughout the game")] public string currencyIcon;
     [Tooltip("The minimum length of a number's digits before the first name (ie. Thousands) is displayed. Must be divisible by 3")] public int firstNameLength = 3;
@@ -43,12 +36,6 @@ public class MoneyManager : MonoBehaviour {
 
         // Add references
         gameManager = GameManager.Instance;
-
-        // Add listeners
-        onMoneyChanged += OnBalanceChanged;
-        Buyable.onVariableChanged += OnBuyableChange;
-        Buyable.onManagerHired += OnBuyableChange;
-        IdleManager.onLoaded += UpdateIncomePerMinute;
     }
 
     // Set up the money (called during init phase of GameManager)
@@ -64,7 +51,6 @@ public class MoneyManager : MonoBehaviour {
             SetMoney(startingMoney);
         else
             SetMoney(double.Parse(PlayerPrefs.GetString("Money")));
-        UpdateIncomePerMinute();
         gameManager.ProcessComplete();
     }
     
@@ -99,10 +85,6 @@ public class MoneyManager : MonoBehaviour {
 
     public bool CanAffordPurchase(double cost) {
         return Money > cost;
-    }
-
-    void OnBalanceChanged(double money) {
-        moneyText.text = GetFormattedMoney(money, true);
     }
 
     public string GetStringMoney(double money) {
@@ -189,18 +171,6 @@ public class MoneyManager : MonoBehaviour {
         }
     }
 
-    // Called by a delegate when a buyable value is changed
-    void OnBuyableChange(Buyable b) {
-        UpdateIncomePerMinute();
-    }
-
-    // Update the UI to show the income per minute
-    public void UpdateIncomePerMinute() {
-        if(incomePerMinute != null) {
-            incomePerMinute.text = GetFormattedMoney(CalculateMinutelyProfit(), false) + "/min";
-        }
-    }
-
     // Calculates total profits per minute
     public double CalculateMinutelyProfit() {
         double total = 0;
@@ -219,6 +189,5 @@ public class MoneyManager : MonoBehaviour {
     public void ResetData() {
         PlayerPrefs.SetString("Money", "");
         SetMoney(startingMoney);
-        incomePerMinute.text = GetFormattedMoney(0, false) + "/min";
     }
 }
