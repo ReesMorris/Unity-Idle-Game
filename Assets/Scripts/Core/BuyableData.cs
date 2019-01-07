@@ -9,7 +9,7 @@ public class BuyableData {
     public static OnDataLoaded onDataLoaded;
 
     public enum ProductionAlgorithm { Standard, Multiplicative, Additive, Custom };
-    public enum ActionToTakeOnUpgrade { Standard, Mixed, Custom, None };
+    public enum ActionToTakeOnMilestone { Standard, Mixed, Custom, None };
 
     // Public Variables
     [Header("General")]
@@ -25,7 +25,7 @@ public class BuyableData {
 
     [Header("Calculations")]
     [Tooltip("The algorithm used to determine the cost of the next upgrade.\n\nStandard is the most popular algorithm for idle games and is\nbaseCost * (growthRate)^owned\n\nMultiplicative will only multiply by growthRate and is\nbaseCost * growthRate * owned\n\nAdditive will add all values together and is\nbaseCost + growthRate + owned\n\nCustom allows you to determine your own algorithm by modifying this script")] public ProductionAlgorithm productionAlgorithm;
-    [Tooltip("The action to complete when an upgrade is done.\n\nNone will do nothing\n\nStandard will half the time to produce every time the amount owned equals an upgradeMilestone\n\nMixed will alternate between halfing the time to produce and doubling the profit each time (starting from half time, double profit, half time, ...)\n\nCustom allows you to determine your own algorithm by modifying this script")] public ActionToTakeOnUpgrade actionToTakeOnUpgrade;
+    [Tooltip("The action to complete when an upgrade is done.\n\nNone will do nothing\n\nStandard will half the time to produce every time the amount owned equals an upgradeMilestone\n\nMixed will alternate between halfing the time to produce and doubling the profit each time (starting from half time, double profit, half time, ...)\n\nCustom allows you to determine your own algorithm by modifying this script")] public ActionToTakeOnMilestone actionToTakeOnMilestone;
 
     // Private & Protected Variables
     public float ProcessTime { get; protected set; }
@@ -72,20 +72,19 @@ public class BuyableData {
 
     // Called when the item is upgraded
     void UpgradeActions() {
-        switch(actionToTakeOnUpgrade) {
-            case ActionToTakeOnUpgrade.Standard:
+        switch(actionToTakeOnMilestone) {
+            case ActionToTakeOnMilestone.Standard:
                 while (ReachedMilestone())
                     ProcessTime /= 2f;
                 break;
-            case ActionToTakeOnUpgrade.Mixed:
+            case ActionToTakeOnMilestone.Mixed:
                 while (ReachedMilestone())
                     if (NextMilestoneIndex % 2 == 1)
                         ProcessTime /= 2f;
                     else
                         Profit *= 2;
-
                 break;
-            case ActionToTakeOnUpgrade.Custom:
+            case ActionToTakeOnMilestone.Custom:
                 // If you wish to use a custom algorithm, drop it here.
                 // Make sure to break after the statement is complete.
                 break;

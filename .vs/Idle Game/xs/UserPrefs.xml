@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{E80E9977-2DDF-774F-38D9-C54F28D0CC0B}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Core/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Core/MoneyManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Core/GameManager.cs" Line="19" Column="99" />
+      <File FileName="Assets/Scripts/Core/GameManager.cs" Line="15" Column="40" />
       <File FileName="Assets/Scripts/Core/BuyableData.cs" Line="143" Column="81" />
       <File FileName="Assets/Scripts/Examples/Idle1.cs" Line="63" Column="62" />
-      <File FileName="Assets/Scripts/Core/IdleManager.cs" Line="77" Column="73" />
+      <File FileName="Assets/Scripts/Core/IdleManager.cs" Line="10" Column="37" />
       <File FileName="Assets/Scripts/Extra/UIButton.cs" Line="35" Column="5" />
       <File FileName="Assets/Scripts/Core/Idles.cs" Line="50" Column="41" />
+      <File FileName="Assets/Scripts/Core/MoneyManager.cs" Line="45" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

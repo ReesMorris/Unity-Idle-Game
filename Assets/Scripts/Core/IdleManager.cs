@@ -9,10 +9,6 @@ public class IdleManager : MonoBehaviour {
     public delegate void OnLoaded();
     public static OnLoaded onLoaded;
 
-    [Header("UI Elements")]
-    public GameObject gameScreen;
-    public GameObject loadingScreen;
-
     private GameManager gameManager;
     private Idles idles;
     private MoneyManager moneyManager;
