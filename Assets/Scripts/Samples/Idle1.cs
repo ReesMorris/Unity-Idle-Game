@@ -20,6 +20,8 @@ public class Idle1 : MonoBehaviour {
     public Text managerCostText;
     public Text amountOwnedText;
     public Text timerText;
+    public Image iconImage;
+    public Image backgroundImage;
     public Image progressFill;
     public Image ownedFill;
 
@@ -47,6 +49,9 @@ public class Idle1 : MonoBehaviour {
         Buyable.onBuyablePurchase += OnBuyablePurchase;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
         GameManager.onLoadingComplete += OnLoadingComplete;
+
+        // We don't require any waiting to do this
+        StartUI();
     }
 
     // The network is ready; let's go!
@@ -54,6 +59,12 @@ public class Idle1 : MonoBehaviour {
         GameManager.onLoadingComplete -= OnLoadingComplete;
         UpdateUI();
         StartCoroutine(UpdateTimer());
+    }
+
+    // Add a start UI
+    void StartUI() {
+        iconImage.sprite = buyable.Data.sprites[0];
+        backgroundImage.sprite = buyable.Data.sprites[1];
     }
 
     // Update the UI display with content from the Buyable Data
