@@ -28,6 +28,7 @@ public class IdleTemplate : MonoBehaviour {
         Buyable.onProcessFinish += OnProcessFinish;
         Buyable.onManagerHired += OnManagerHired;
         Buyable.onBuyablePurchase += OnBuyablePurchase;
+        Buyable.onMaximumUpgradeReached += OnMaximumUpgradeReached;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
         GameManager.onLoadingComplete += OnLoadingComplete;
     }
@@ -98,6 +99,15 @@ public class IdleTemplate : MonoBehaviour {
     // Called after a manager has been purchased
     void OnManagerHired(Buyable b) {
         if (b == buyable) {
+
+
+
+        }
+    }
+
+    // Called when the idle is upgraded to its maximum amount
+    void OnMaximumUpgradeReached(Buyable b) {
+        if(b == buyable) {
 
 
 

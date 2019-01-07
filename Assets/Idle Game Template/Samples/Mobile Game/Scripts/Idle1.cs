@@ -47,6 +47,7 @@ public class Idle1 : MonoBehaviour {
         Buyable.onProcessFinish += OnProcessFinish;
         Buyable.onManagerHired += OnManagerHired;
         Buyable.onBuyablePurchase += OnBuyablePurchase;
+        Buyable.onMaximumUpgradeReached += OnMaximumUpgradeReached;
         BuyableData.onDataLoaded += OnBuyableDataLoaded;
         GameManager.onLoadingComplete += OnLoadingComplete;
 
@@ -143,6 +144,13 @@ public class Idle1 : MonoBehaviour {
     void OnBuyablePurchase(Buyable b) {
         if(b == buyable) {
 
+        }
+    }
+
+    // Called when the idle is upgraded to its maximum amount
+    void OnMaximumUpgradeReached(Buyable b) {
+        if(b == buyable) {
+            upgradeButton.gameObject.SetActive(false);
         }
     }
 }

@@ -17,6 +17,8 @@ public class Buyable : MonoBehaviour {
     public static OnManagerHired onManagerHired;
     public delegate void OnBuyablePurchase(Buyable buyable);
     public static OnBuyablePurchase onBuyablePurchase;
+    public delegate void OnMaximumUpgradeReached(Buyable buyable);
+    public static OnMaximumUpgradeReached onMaximumUpgradeReached;
 
     // Private & Protected Variables
     public BuyableData Data { get; private set; }
@@ -66,6 +68,10 @@ public class Buyable : MonoBehaviour {
                 // If this is the first upgrade (a purchase), send out an additional delegate
                 if (onBuyablePurchase != null)
                     onBuyablePurchase(this);
+
+                // Do we own the max?
+                if (Data.Owned == Data.maxAmount && onMaximumUpgradeReached != null)
+                    onMaximumUpgradeReached(this);
             }
         }
     }
