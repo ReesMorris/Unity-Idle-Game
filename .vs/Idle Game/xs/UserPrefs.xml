@@ -3,14 +3,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Samples/Idle1.cs">
     <Files>
       <File FileName="Assets/Scripts/Core/GameManager.cs" Line="9" Column="31" />
-      <File FileName="Assets/Scripts/Core/BuyableData.cs" Line="32" Column="60" />
+      <File FileName="Assets/Scripts/Core/BuyableData.cs" Line="35" Column="29" />
       <File FileName="Assets/Scripts/Core/IdleManager.cs" Line="10" Column="37" />
       <File FileName="Assets/Scripts/Extra/UIButton.cs" Line="34" Column="6" />
       <File FileName="Assets/Scripts/Core/Idles.cs" Line="52" Column="23" />
       <File FileName="Assets/Scripts/Core/MoneyManager.cs" Line="54" Column="1" />
       <File FileName="Assets/Scripts/Core/Utilities.cs" Line="5" Column="39" />
-      <File FileName="Assets/Scripts/Samples/Idle1.cs" Line="65" Column="31" />
-      <File FileName="Assets/Scripts/Core/Buyable.cs" Line="31" Column="1" />
+      <File FileName="Assets/Scripts/Samples/Idle1.cs" Line="98" Column="1" />
+      <File FileName="Assets/Scripts/Samples/IdleTemplate.cs" Line="102" Column="13" />
+      <File FileName="Assets/Scripts/Core/Buyable.cs" Line="91" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
