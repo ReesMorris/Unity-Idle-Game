@@ -8,6 +8,8 @@ public class IdleManager : MonoBehaviour {
 
     public delegate void OnLoaded();
     public static OnLoaded onLoaded;
+    public delegate void OnAwayProfitsCalculated(int secondsGone, double earnings);
+    public static OnAwayProfitsCalculated onAwayProfitsCalculated;
 
     private GameManager gameManager;
     private Idles idles;
@@ -61,11 +63,9 @@ public class IdleManager : MonoBehaviour {
             if (onLoaded != null)
                 onLoaded();
 
-            // Todo: move this 
-            print("Welcome back! You were gone for " + utilities.SecondsToHHMMSS(secondsGone, false));
-            if(idleEarnings > 0) {
-                print("You earned " + moneyManager.GetFormattedMoney(idleEarnings, false) + " whilst you were away");
-            }
+            // Tell other scripts (typically a UI-handler) that we've calculated some away profits
+            if (onAwayProfitsCalculated != null)
+                onAwayProfitsCalculated(secondsGone, idleEarnings);
         }
         gameManager.ProcessComplete();
     }

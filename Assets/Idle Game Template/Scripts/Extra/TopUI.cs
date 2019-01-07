@@ -19,7 +19,8 @@ public class TopUI : MonoBehaviour {
 
         // Add event listeners
         MoneyManager.onMoneyChanged += OnMoneyChanged;
-        Buyable.onVariableChanged += OnBuyableChange;
+        Buyable.onVariableChanged += OnBuyableEvent;
+        Buyable.onManagerHired += OnBuyableEvent;
         GameManager.onLoadingComplete += OnLoadingComplete;
     }
 
@@ -28,14 +29,17 @@ public class TopUI : MonoBehaviour {
         UpdateIncomePerMinute();
     }
 
+    // Called by MoneyManager whenever the player's balance is changed
     void OnMoneyChanged(double money) {
         moneyText.text = moneyManager.GetFormattedMoney(money, true);
     }
 
-    void OnBuyableChange(Buyable b) {
+    // Called by Buyable, listening for a change in a variable or when a manager is hired
+    void OnBuyableEvent(Buyable b) {
         UpdateIncomePerMinute();
     }
 
+    // Update the UI text to show the new income per minute
     void UpdateIncomePerMinute() {
         incomePerMinute.text = moneyManager.GetFormattedMoney(moneyManager.CalculateMinutelyProfit(), false) + "/min";
     }

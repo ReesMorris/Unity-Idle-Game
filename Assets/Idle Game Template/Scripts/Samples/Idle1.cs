@@ -56,7 +56,6 @@ public class Idle1 : MonoBehaviour {
 
     // The network is ready; let's go!
     void OnLoadingComplete() {
-        print("A");
         GameManager.onLoadingComplete -= OnLoadingComplete;
         UpdateUI();
         StartCoroutine(UpdateTimer());
