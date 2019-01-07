@@ -45,13 +45,16 @@ public class Idles : MonoBehaviour {
 
     void DisplayBuyables() {
         gameManager.ProcessBegin();
-        if(idles.Length > 0) {
+        if(idles.Length > 0 && !setupComplete) {
 
             // Display all buyables from the start
             if(displayMode == DisplayModes.DisplayAll) {
                 foreach(BuyableData buyable in idles) {
                     DisplayBuyable(buyable);
                 }
+
+                // We're done here
+                setupComplete = true;
             }
 
             // Other options
@@ -81,6 +84,9 @@ public class Idles : MonoBehaviour {
                  *  To add a buyable to the screen, call DisplayBuyable() passing in BuyableData as a parameter
                  *  The BuyableData can be fetched from the 'idles' variable - ie. DisplayBuyable(idles[0]) will show the first
                  */
+
+                // We're done here
+                setupComplete = true;
             }
         }
         gameManager.ProcessComplete();

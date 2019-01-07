@@ -47,7 +47,7 @@ public class MoneyManager : MonoBehaviour {
     // Set the starting money UI
     void SetStartingMoney() {
         gameManager.ProcessBegin();
-        if (PlayerPrefs.GetString("Money") == "")
+        if (PlayerPrefs.GetString("Money") == "" || PlayerPrefs.GetString("Money") == "0")
             SetMoney(startingMoney);
         else
             SetMoney(double.Parse(PlayerPrefs.GetString("Money")));
@@ -61,6 +61,9 @@ public class MoneyManager : MonoBehaviour {
         // Tell other scripts our balance has changed
         if (onMoneyChanged != null)
             onMoneyChanged(Money);
+
+        // Save the new balance
+        SaveData();
     }
 
     public void AddMoney(double amount) {
@@ -69,6 +72,9 @@ public class MoneyManager : MonoBehaviour {
         // Tell other scripts our balance has changed
         if(onMoneyChanged != null)
             onMoneyChanged(Money);
+
+        // Save the new balance
+        SaveData();
     }
 
     public void ReduceMoney(double amount) {
@@ -81,6 +87,9 @@ public class MoneyManager : MonoBehaviour {
         // Tell other scripts our balance has changed
         if (onMoneyChanged != null)
             onMoneyChanged(Money);
+
+        // Save the new balance
+        SaveData();
     }
 
     public bool CanAffordPurchase(double cost) {
@@ -182,7 +191,7 @@ public class MoneyManager : MonoBehaviour {
     }
 
     // Save money data when the player quits
-    void OnApplicationQuit() {
+    void SaveData() {
         PlayerPrefs.SetString("Money", Money.ToString());
     }
 
