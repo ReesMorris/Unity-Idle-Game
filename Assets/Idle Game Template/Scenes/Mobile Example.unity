@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfaabc7908059f0499813ec2e1727432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyNamesFile: Idle Game Template/Resources/MoneyNames.txt
+  moneyNamesFile: MoneyNames
   startingMoney: 5
   currencyIcon: $
   firstNameLength: 3

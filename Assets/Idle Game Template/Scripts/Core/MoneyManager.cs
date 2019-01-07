@@ -11,7 +11,7 @@ public class MoneyManager : MonoBehaviour {
     public static MoneyManager Instance;
 
     [Header("Config")]
-    [Tooltip("The filename of the text file containing names of money. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
+    [Tooltip("The filename of the text file containing names of money. Should be in the resources folder. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
     [Tooltip("The amount of money the player starts the game with")] public float startingMoney;
     [Tooltip("The currency icon used throughout the game")] public string currencyIcon;
     [Tooltip("The minimum length of a number's digits before the first name (ie. Thousands) is displayed. Must be divisible by 3")] public int firstNameLength = 3;
@@ -144,7 +144,8 @@ public class MoneyManager : MonoBehaviour {
         moneyNames = new List<string>();
         moneyQuickhand = new List<string>();
 
-        StreamReader reader = new StreamReader(Application.dataPath + "/" + moneyNamesFile);
+        TextAsset textFile = (TextAsset)Resources.Load(moneyNamesFile);
+        StringReader reader = new StringReader(textFile.text);
         string fileContents = reader.ReadToEnd();
         reader.Close();
 

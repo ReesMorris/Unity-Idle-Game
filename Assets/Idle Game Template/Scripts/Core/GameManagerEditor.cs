@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -7,8 +8,6 @@ using UnityEditor;
 public class GameManagerEditor : Editor {
 
     bool debugging;
-    double giveMoney;
-    double reduceMoney;
 
     override public void OnInspectorGUI() {
         DrawDefaultInspector();
@@ -26,3 +25,4 @@ public class GameManagerEditor : Editor {
         }
     }
 }
+#endif
