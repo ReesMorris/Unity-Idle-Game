@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(MoneyManager))]
-public class MoneyManagerEditor : Editor {
+[CustomEditor(typeof(IdleMoneyManager))]
+public class IdleMoneyManagerEditor : Editor {
 
     bool debugging;
     double giveMoney;
@@ -14,7 +14,7 @@ public class MoneyManagerEditor : Editor {
     override public void OnInspectorGUI() {
         DrawDefaultInspector();
 
-        MoneyManager myScript = (MoneyManager)target;
+        IdleMoneyManager myScript = (IdleMoneyManager)target;
 
         // Debugging title and toggle
         GUILayout.Label("Debugging", EditorStyles.boldLabel);

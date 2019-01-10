@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(GameManager))]
-public class GameManagerEditor : Editor {
+[CustomEditor(typeof(IdleGameManager))]
+public class IdleGameManagerEditor : Editor {
 
     bool debugging;
 
     override public void OnInspectorGUI() {
         DrawDefaultInspector();
 
-        GameManager myScript = (GameManager)target;
+        IdleGameManager myScript = (IdleGameManager)target;
 
         // Debugging title and toggle
         GUILayout.Label("Debugging", EditorStyles.boldLabel);

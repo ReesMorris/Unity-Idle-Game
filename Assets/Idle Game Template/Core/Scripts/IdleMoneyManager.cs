@@ -2,13 +2,13 @@
 using UnityEngine;
 using System.IO;
 
-public class MoneyManager : MonoBehaviour {
+public class IdleMoneyManager : MonoBehaviour {
 
     public delegate void OnMoneyChanged(double newAmount);
     public static OnMoneyChanged onMoneyChanged;
 
     // Define the instance so we can use it easily from other scripts
-    public static MoneyManager Instance;
+    public static IdleMoneyManager Instance;
 
     [Header("Config")]
     [Tooltip("The filename of the text file containing names of money. Should be in the resources folder. Format should be FullName|SingleLetter (ie. Million|M)")] public string moneyNamesFile;
@@ -25,7 +25,7 @@ public class MoneyManager : MonoBehaviour {
     public double Money { get; protected set; }
     List<string> moneyNames; // ie. Trillion
     List<string> moneyQuickhand; // ie. T
-    GameManager gameManager;
+    IdleGameManager gameManager;
 
     void Awake() {
         Instance = this;
@@ -40,7 +40,7 @@ public class MoneyManager : MonoBehaviour {
         SetupMoneyNames();
 
         // Add references
-        gameManager = GameManager.Instance;
+        gameManager = IdleGameManager.Instance;
     }
 
     // Set up the money (called during init phase of GameManager)
