@@ -16,7 +16,7 @@ public class MoneyManager : MonoBehaviour {
     [Tooltip("The currency icon used throughout the game")] public string currencyIcon;
     [Tooltip("The minimum length of a number's digits before the first name (ie. Thousands) is displayed. Must be divisible by 3")] public int firstNameLength = 3;
     [Tooltip("The number of decimal places to display")] public int decimalPlaces = 3;
-    [Tooltip("If enabled, the user's balance will never drop below zero")] public bool allowNegativeBalance;
+    [Tooltip("If enabled, the user's balance will be able to below zero (this does not permit purchasing things the user cannot afford)")] public bool allowNegativeBalance;
     [Tooltip("After the length of MoneyNames.txt is exceeded, generate values from aa, ab, ac, ...?")] public bool autoNameBigMoney = true;
     [Tooltip("If not automatically naming big money, the string to appear once MoneyNames.txt is exceeded")] public string bigMoneyString = "a lot";
     [Tooltip("The maximum amount of money a player can have (should not exceed double.MaxValue)")] public double maxMoney = double.MaxValue;

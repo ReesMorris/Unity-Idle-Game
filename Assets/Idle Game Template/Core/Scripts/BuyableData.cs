@@ -20,8 +20,9 @@ public class BuyableData {
     [Tooltip("The rate of growth after every purchase, typically between 1.05 and 1.3")] public float growthRate;
     [Tooltip("The time (in seconds) the first idle will take to be completed")] public float baseTime;
     [Tooltip("The amount received from every production on level 1")] public float baseProfit;
+    [Tooltip("The base multiplier for this buyable")] public double baseMultiplier = 1;
     [Tooltip("The cost to purchase a manager. Managers will automatically click for you once a process ends (and earn offline revenue!)")] public double managerCost;
-    [Tooltip("The maximum amount that can be purchased. As money is stored as a double, ensure that the best possible production for this would still be less than 10^308")] public int maxAmount = 400;
+    [Tooltip("The maximum amount that can be purchased. It is best to ensure that this value is less than 10^308 as any cost larger than this value will be set to this automatically")] public int maxAmount = 400;
     [Tooltip("The milestones used by the UpgradeActions function for either standard or custom actions")] public int[] upgradeMilestones = { 25, 50, 100, 200, 300, 400 };
 
     [Header("Calculations")]
@@ -42,7 +43,7 @@ public class BuyableData {
     public double ProcessStartTime { get; protected set; }
     public double MinutelyProfit { get; protected set; }
     public double IdleEarnings { get; protected set; }
-    private float multiplier = 1;
+    public double Multiplier { get; protected set; }
     private GameManager gameManager;
 
     public void Init() {
@@ -50,6 +51,7 @@ public class BuyableData {
         ProcessTime = baseTime;
         Cost = baseCost;
         Profit = baseProfit;
+        Multiplier = baseMultiplier;
     }
 
     // Called to fetch the next buy cost
@@ -65,6 +67,10 @@ public class BuyableData {
             default:
                 Cost = baseCost * Mathf.Pow(growthRate, Owned); break;
         }
+
+        // Failsafe to prevent cost being more than the size of a double
+        if (Cost > double.MaxValue)
+            Cost = double.MaxValue;
     }
 
     // Set the minutely profit based on current upgrades
@@ -148,7 +154,7 @@ public class BuyableData {
 
     // Called to get the amount earned from a single process
     public double GetRevenue() {
-        return Profit * Owned * multiplier * gameManager.globalRevenueMultiplier;
+        return Profit * Owned * Multiplier * gameManager.globalRevenueMultiplier;
     }
 
     // Begin a process
