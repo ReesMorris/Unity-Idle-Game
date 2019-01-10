@@ -19,6 +19,7 @@ public class MoneyManager : MonoBehaviour {
     [Tooltip("If enabled, the user's balance will never drop below zero")] public bool allowNegativeBalance;
     [Tooltip("After the length of MoneyNames.txt is exceeded, generate values from aa, ab, ac, ...?")] public bool autoNameBigMoney = true;
     [Tooltip("If not automatically naming big money, the string to appear once MoneyNames.txt is exceeded")] public string bigMoneyString = "a lot";
+    [Tooltip("The maximum amount of money a player can have (should not exceed double.MaxValue)")] public double maxMoney = double.MaxValue;
 
     // Private Variables
     public double Money { get; protected set; }
@@ -31,6 +32,10 @@ public class MoneyManager : MonoBehaviour {
     }
 
     void OnSetup() {
+        // Validate that the max money we can have is less than the max of a double
+        if (maxMoney > double.MaxValue)
+            maxMoney = double.MaxValue;
+
         // Set up the lists to contain all money names used in the game
         SetupMoneyNames();
 
@@ -56,7 +61,12 @@ public class MoneyManager : MonoBehaviour {
     
     // Set our balance to a specific amount
     public void SetMoney(double amount) {
-        Money = amount;
+
+        // Only allow us to set our money to the max amount or less
+        if (amount <= maxMoney)
+            Money = amount;
+        else
+            Money = maxMoney;
 
         // Tell other scripts our balance has changed
         if (onMoneyChanged != null)
@@ -67,7 +77,12 @@ public class MoneyManager : MonoBehaviour {
     }
 
     public void AddMoney(double amount) {
-        Money += amount;
+
+        // Give money that won't exceed our max value
+        if(Money + amount <= maxMoney)
+            Money += amount;
+        else
+            Money = maxMoney;
 
         // Tell other scripts our balance has changed
         if(onMoneyChanged != null)

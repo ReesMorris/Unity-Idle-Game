@@ -1,18 +1,21 @@
 ﻿<Properties StartupConfiguration="{E80E9977-2DDF-774F-38D9-C54F28D0CC0B}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Idle Game Template/Samples/Mobile Game/Scripts/Idle1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Idle Game Template/Samples/Mobile Game/Scripts/WelcomeBackUI.cs">
     <Files>
       <File FileName="Assets/Resources/MoneyNames.txt" Line="1" Column="11" />
       <File FileName="Assets/Idle Game Template/Core/Scripts/Idles.cs" Line="130" Column="6" />
-      <File FileName="Assets/Idle Game Template/Core/Scripts/IdleManager.cs" Line="59" Column="66" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/IdleManager.cs" Line="58" Column="51" />
       <File FileName="Assets/Idle Game Template/Core/Scripts/BuyableData.cs" Line="197" Column="79" />
       <File FileName="Assets/Idle Game Template/Core/Scripts/MoneyManager.cs" Line="186" Column="26" />
       <File FileName="Assets/Idle Game Template/Core/Scripts/Buyable.cs" Line="70" Column="45" />
       <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/Idle1.cs" Line="50" Column="67" />
       <File FileName="Assets/Idle Game Template/Core/Scripts/GameManager.cs" Line="123" Column="48" />
-      <File FileName="Assets/Idle Game Template/Core/Scripts/Utilities.cs" Line="17" Column="9" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/Utilities.cs" Line="17" Column="1" />
       <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/UIButton.cs" Line="46" Column="1" />
       <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/TopUI.cs" Line="44" Column="98" />
+      <File FileName="Assets/Idle Game Template/Core/Scripts/GameManagerEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/LoadingScreen.cs" Line="17" Column="6" />
+      <File FileName="Assets/Idle Game Template/Samples/Mobile Game/Scripts/WelcomeBackUI.cs" Line="14" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -9,6 +9,7 @@ public class LoadingScreen : MonoBehaviour {
     [Header("UI Elements")]
     public Text loadingText;
 
+
     // Get the events of the GameManager
     void Awake() {
         GameManager.onLoadingPercentageChange += UpdateLoader;
@@ -24,4 +25,6 @@ public class LoadingScreen : MonoBehaviour {
     void OnLoadingComplete() {
         gameObject.SetActive(false);
     }
+
+
 }

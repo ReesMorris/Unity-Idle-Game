@@ -11,6 +11,7 @@ public class WelcomeBackUI : MonoBehaviour {
     // Private Variables
     private Utilities utilities;
     private MoneyManager moneyManager;
+    private double awayEarnings;
 
     void Start() {
         IdleManager.onAwayProfitsCalculated += DisplayUI;
@@ -24,6 +25,7 @@ public class WelcomeBackUI : MonoBehaviour {
 
         // Only show the UI if we earned something
         if(earnings > 0) {
+            awayEarnings = earnings;
             awayContainer.SetActive(true);
             awayText.text = "You've been gone for\n" + utilities.SecondsToHHMMSS(secondsGone, false);
             earningsText.text = moneyManager.GetFormattedMoney(earnings, false);
@@ -33,6 +35,7 @@ public class WelcomeBackUI : MonoBehaviour {
     // Called when the continue button is clicked
     public void CloseUI() {
         awayContainer.SetActive(false);
+        moneyManager.AddMoney(awayEarnings);
     }
 
 }
